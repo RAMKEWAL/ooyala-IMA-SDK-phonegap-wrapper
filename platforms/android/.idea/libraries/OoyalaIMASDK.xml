@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="OoyalaIMASDK">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/OoyalaIMASDK.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
