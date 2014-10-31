@@ -55,6 +55,9 @@ const ACTION_GET_SEEKSTYLE = "getSeekStyle";
 const ACTION_GET_CUEPOINTSINMILLISECONDS = "getCuePointsInMilliSeconds";
 const ACTION_GET_CUEPOINTSINPERCENTAGE = "getCuePointsInPercentage";
 
+const ACTION_SET_ADURLOVERRIDE = "setAdUrlOverride";
+const ACTION_SET_ADTAGPARAMS = "setAdTagParameters";
+
 const EVENTS = {
     authTokenChanged : "authTokenChanged",
     ADS_CLICK : "ADS_CLICK",
@@ -151,7 +154,7 @@ function create_player(pcode, domain) {
     ooyala_player.mb = MessageBus;
 
     cordova.exec(MessageBus.handler, null, PLAYER_PLUGIN,
-            ACTION_SET_MSGBUSEVENTHANDLER, [null]);
+            ACTION_SET_MSGBUSEVENTHANDLER, []);
     cordova.exec(null, null, PLAYER_PLUGIN, ACTION_CREATE_PLAYER, [{"pcode":pcode, "domain":domain}]);
 
     return ooyala_player;
@@ -208,19 +211,19 @@ var ooyala_player = {
     },
 
     getMetadata : function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_METADATA, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_METADATA, []);
     },
 
     getEmbedCode: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_EMBEDCODE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_EMBEDCODE, []);
     },
 
     getAuthToken: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_AUTHTOKEN, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_AUTHTOKEN, []);
     },
 
     getCustomDRMData: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_CUSTOMDRMDATA, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_CUSTOMDRMDATA, []);
     },
 
     setCustomDRMData: function(customDRMData, success, failure) {
@@ -228,15 +231,15 @@ var ooyala_player = {
     },
 
     getState: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_STATE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_STATE, []);
     },
 
     pause: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PAUSE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PAUSE, []);
     },
 
     play : function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PLAY, [0]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PLAY, []);
     },
 
     playWithInitialTime : function(time, success, failure) {
@@ -244,15 +247,15 @@ var ooyala_player = {
     },
 
     suspend: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SUSPEND, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SUSPEND, []);
     },
 
     resume: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_RESUME, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_RESUME, []);
     },
 
     isFullscreen: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_ISFULLSCREEN, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_ISFULLSCREEN, []);
     },
 
     setFullscreen: function(bFullScreen, success, failure) {
@@ -260,11 +263,11 @@ var ooyala_player = {
     },
 
     getTopBarOffset: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_TOPBAROFFSET, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_TOPBAROFFSET, []);
     },
 
     getPlayheadTime: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_PLAYHEADTIME, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_PLAYHEADTIME, []);
     },
 
     setPlayheadTime: function(time, success, failure) {
@@ -272,7 +275,7 @@ var ooyala_player = {
     },
 
     seekable: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SEEKABLE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SEEKABLE, []);
     },
 
     seek: function(time, success, failure) {
@@ -288,7 +291,7 @@ var ooyala_player = {
     },
 
     getActionAtEnd: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_ACTIONATEND, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_ACTIONATEND, []);
     },
 
     setActionAtEnd: function(actionAtEnd, success, failure) {
@@ -304,23 +307,23 @@ var ooyala_player = {
     },
 
     getClosedCaptionsLanguage: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_CLOSEDCAPTIONSLANGUAGE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_CLOSEDCAPTIONSLANGUAGE, []);
     },
 
     getAvailableClosedCaptionsLanguages: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_AVAILABLECLOSEDCAPTIONSLANGUAGES, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_AVAILABLECLOSEDCAPTIONSLANGUAGES, []);
     },
 
     getBitrate: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_BITRATE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_BITRATE, []);
     },
 
     isPlaying: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_ISPLAYING, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_ISPLAYING, []);
     },
 
     isAdPlaying: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_ISADPLAYING, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_ISADPLAYING, []);
     },
 
     seekToPercent: function(percent, success, failure) {
@@ -328,15 +331,15 @@ var ooyala_player = {
     },
 
     getDuration: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_DURATION, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_DURATION, []);
     },
 
     getBufferPercentage: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_BUFFER_PERCENTAGE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_BUFFER_PERCENTAGE, []);
     },
 
     getPlayheadPercentage: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_PLAYHEAD_PERCENTAGE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_PLAYHEAD_PERCENTAGE, []);
     },
 
     setAdsSeekable: function(flag, success, failure) {
@@ -348,15 +351,15 @@ var ooyala_player = {
     },
 
     resetAds: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_RESETADS, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_RESETADS, []);
     },
 
     skipAd: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SKIPAD, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SKIPAD, []);
     },
 
     isShowingAd: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_ISSHOWINGAD, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_ISSHOWINGAD, []);
     },
 
     setClosedCaptionsBottomMargin: function(bottomMargin, success, failure) {
@@ -372,14 +375,22 @@ var ooyala_player = {
     },
 
     getSeekStyle: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_SEEKSTYLE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_SEEKSTYLE, []);
     },
 
     getCuePointsInMilliSeconds: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_CUEPOINTSINMILLISECONDS, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_CUEPOINTSINMILLISECONDS, []);
     },
 
     getCuePointsInPercentage: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_CUEPOINTSINPERCENTAGE, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_GET_CUEPOINTSINPERCENTAGE, []);
+    },
+
+    setAdUrlOverride: function(url, success, failure) {
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SET_ADURLOVERRIDE, [url]);
+    },
+
+    setAdTagParameters: function(params, success, failure) {
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SET_ADTAGPARAMS, [params]);
     }
 }

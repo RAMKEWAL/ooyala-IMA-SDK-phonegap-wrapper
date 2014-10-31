@@ -96,6 +96,14 @@ var app = {
         // Set closed captions bottom margin
         //player.setClosedCaptionsBottomMargin(0, null, null);
 
+        // Set ad url override
+        //var url = "http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/7521029/pb_preroll_ad&ciu_szs&impl=s&cmsid=949&vid=FjbGRjbzp0DV_5-NtXBVo5Rgp3Sj0R5C&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&description_url=[description_url]&correlator=[timestamp]";
+        //player.setAdUrlOverride(url, null, null);
+
+        // Set adTagParams
+        //var adTagParams = {"A1" : "B1", "A2" : "B2", "A3" : "B3"};
+        //player.setAdTagParameters(adTagParams, null, null);
+
         // Play video
         player.play(null, null);
         //player.playWithInitialTime(3 * 1000, null, null);

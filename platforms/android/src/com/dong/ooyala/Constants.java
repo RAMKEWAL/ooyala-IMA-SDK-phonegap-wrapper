@@ -25,7 +25,6 @@ public class Constants {
     public static final String IP_CUSTOMANALYTICSTAGS = "CustomAnalyticsTags";
     public static final String IP_INITPLAYTIME = "InitPlayTime";
     public static final String IP_FULLSCREEN = "Fullscreen";
-    //--
     public static final String IP_CUSTOMDRMDATA = "CustomDRMData";
     public static final String IP_CLOSEDCAPTIONSLANG = "ClosedCaptionsLang";
     public static final String IP_ADSSEEKABLE = "AdsSeekable";
@@ -34,6 +33,8 @@ public class Constants {
     public static final String IP_ACTIONATEND = "ActionAtEnd";
     public static final String IP_CLOSEDCAPTIONSPRESENTATIONSTYLE = "ClosedCaptionsPresentationStyle";
     public static final String IP_CLOSEDCAPTIONSBOTTOMMARGIN = "ClosedCaptionsBottomMargin";
+    public static final String IP_ADSURLOVERRIDE = "AdsUrlOverride";
+    public static final String IP_ADTAGPARAMS = "AdTagParams";
 
     public static final String IP_STRINGVAL = "StringValue";
     public static final String IP_INTVAL = "IntValue";
@@ -97,8 +98,7 @@ public class Constants {
     public static final String ACTION_GET_CUEPOINTSINMILLISECONDS = "getCuePointsInMilliSeconds";
     public static final String ACTION_GET_CUEPOINTSINPERCENTAGE = "getCuePointsInPercentage";
 
-    public static final String ACTION_SET_CURRENTITEM_CHANGEDCALLBACK = "setCurrentItemChangedCallback";
-    public static final String ACTION_ADD_COMPANIONSLOT = "addCompanionSlot";
+    // IMA Manager actions
     public static final String ACTION_SET_ADURLOVERRIDE = "setAdUrlOverride";
     public static final String ACTION_SET_ADTAGPARAMS = "setAdTagParameters";
 

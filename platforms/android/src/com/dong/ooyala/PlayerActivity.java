@@ -50,6 +50,8 @@ public class PlayerActivity extends Activity {
     private int _actionAtEnd = -1;
     private int _closedCaptionsPresentationStyle = -1;
     private int _closedCaptionsBottomMargin = -1;
+    private String _adsUrlOverride = null;
+    private HashMap<String, String> _adTagParams = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,19 +76,12 @@ public class PlayerActivity extends Activity {
         if (player == null) return;
 
         //Initialize IMA classes
-        /*
         try {
             imaManager = new OoyalaIMAManager(player);
         } catch (Exception e) {
             e.printStackTrace();
+            imaManager = null;
         }
-
-        ViewGroup companionView = (ViewGroup) findViewById(R.id.companionFrame);
-        imaManager.addCompanionSlot(companionView, 300, 50);
-        String adtag = "d01204eea15f466c92e890d14c7df8b6";
-        imaManager.setAdUrlOverride(adtag);
-        imaManager.setAdTagParameters(null);
-        */
 
         // Setting up player config values
         if (_aEmbedCodes != null) {
@@ -141,11 +136,21 @@ public class PlayerActivity extends Activity {
         }
 
         if (_closedCaptionsPresentationStyle != -1) {
-            player.setClosedCaptionsPresentationStyle(ClosedCaptionsStyle.OOClosedCaptionPresentation.values()[_closedCaptionsPresentationStyle]);
+            player.setClosedCaptionsPresentationStyle(
+                    ClosedCaptionsStyle.OOClosedCaptionPresentation.values()[_closedCaptionsPresentationStyle]);
         }
 
         if (_closedCaptionsBottomMargin != -1) {
             player.setClosedCaptionsBottomMargin(_closedCaptionsBottomMargin);
+        }
+
+        if (imaManager != null) {
+            if (_adsUrlOverride != null) {
+                imaManager.setAdUrlOverride(_adsUrlOverride);
+            }
+            if (_adTagParams != null) {
+                imaManager.setAdTagParameters(_adTagParams);
+            }
         }
 
         // Finally play video
@@ -225,6 +230,12 @@ public class PlayerActivity extends Activity {
         }
         if (intent.hasExtra(Constants.IP_CLOSEDCAPTIONSBOTTOMMARGIN)) {
             _closedCaptionsBottomMargin = intent.getIntExtra(Constants.IP_CLOSEDCAPTIONSBOTTOMMARGIN, -1);
+        }
+        if (intent.hasExtra(Constants.IP_ADSURLOVERRIDE)) {
+            _adsUrlOverride = intent.getStringExtra(Constants.IP_ADSURLOVERRIDE);
+        }
+        if (intent.hasExtra(Constants.IP_ADTAGPARAMS)) {
+            _adTagParams = (HashMap<String, String>) intent.getSerializableExtra(Constants.IP_ADTAGPARAMS);
         }
     }
 

@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -41,6 +42,8 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
     private int actionAtEnd;
     private int closedCaptionsPresentationStyle;
     private int closedCaptionsBottomMargin;
+    private String sAdUrlOverride;
+    private HashMap<String, String> adTagParams;
 
     private CallbackContext msgBusEventCallback = null;
     private HashMap<String, CallbackContext>  actionCallbacks;
@@ -85,6 +88,8 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
         actionAtEnd = -1;
         closedCaptionsPresentationStyle = -1;
         closedCaptionsBottomMargin = -1;
+        sAdUrlOverride = null;
+        adTagParams = new HashMap<String, String>();
     }
 
     @Override
@@ -414,6 +419,12 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
                 if (closedCaptionsBottomMargin != -1) {
                     intent.putExtra(Constants.IP_CLOSEDCAPTIONSBOTTOMMARGIN, closedCaptionsBottomMargin);
                 }
+                if (sAdUrlOverride != null) {
+                    intent.putExtra(Constants.IP_ADSURLOVERRIDE, sAdUrlOverride);
+                }
+                if (adTagParams.size() > 0) {
+                    intent.putExtra(Constants.IP_ADTAGPARAMS, adTagParams);
+                }
                 OoyalaPlayerPlugin.this.cordova.getActivity().startActivity(intent);
 
                 return true;
@@ -450,6 +461,32 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
                     this.cordova.getActivity().sendBroadcast(intent);
                 } else {
                     callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                }
+
+                return true;
+            } else if (Constants.ACTION_SET_ADURLOVERRIDE.equals(action)) {
+                sAdUrlOverride = args.getString(0);
+
+                if (CordovaApp.bPlayerActivityRunning) {
+                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
+                    intent.putExtra(Constants.IP_ACTION, action);
+                    intent.putExtra(Constants.IP_ADSURLOVERRIDE, sAdUrlOverride);
+                    this.cordova.getActivity().sendBroadcast(intent);
+                } else {
+                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                }
+
+                return true;
+            } else if (Constants.ACTION_SET_ADTAGPARAMS.equals(action)) {
+                if (args.length() > 0) {
+                    JSONObject jsonObject = args.getJSONObject(0);
+                    Iterator<String> iter = jsonObject.keys();
+                    adTagParams.clear();
+                    while(iter.hasNext()){
+                        String key = iter.next();
+                        String val = jsonObject.getString(key);
+                        adTagParams.put(key, val);
+                    }
                 }
 
                 return true;
