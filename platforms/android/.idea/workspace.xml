@@ -29,18 +29,22 @@
     <list default="true" id="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" name="Default" comment="" />
     <ignored path="android.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/fragment.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1413998331506" ignored="false" />
-    <file path="/OoyalaPlayerPlugin.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414099902496" ignored="false" />
+    <file path="/fragment.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414636094821" ignored="false" />
+    <file path="/OoyalaPlayerPlugin.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414762531318" ignored="false" />
     <file path="/index.html" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1413999299361" ignored="false" />
-    <file path="/ooyala_player.js" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414084051751" ignored="false" />
+    <file path="/ooyala_player.js" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414725799746" ignored="false" />
     <file path="/config.xml" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1413999248813" ignored="false" />
-    <file path="/strings.xml" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1413999866266" ignored="false" />
+    <file path="/strings.xml" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414709700257" ignored="false" />
     <file path="/IMASampleAppActivity.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414000040818" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414085189272" ignored="false" />
-    <file path="/a.dummy" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414085213692" ignored="false" />
-    <file path="/index.js" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414083890948" ignored="false" />
-    <file path="/PlayerActivity.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414115165292" ignored="false" />
+    <file path="/a.dummy" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414720058619" ignored="false" />
+    <file path="/index.js" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414770032092" ignored="false" />
+    <file path="/PlayerActivity.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414769840861" ignored="false" />
     <file path="/CordovaApp.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414077779455" ignored="false" />
+    <file path="/Constants.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414760848725" ignored="false" />
+    <file path="/CallbackReceiver.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414641474233" ignored="false" />
+    <file path="$PROJECT_DIR$/CordovaLib/gen/org/apache/cordova/Manifest.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414759024302" ignored="false" />
+    <file path="$PROJECT_DIR$/gen/com/dong/ooyala/Manifest.java" changelist="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" time="1414759024302" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +59,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -91,9 +96,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java" line="144" class="com.dong.ooyala.PlayerActivity" package="com.dong.ooyala">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java" line="332" class="com.dong.ooyala.PlayerActivity.PluginCommandReceiver$1" package="com.dong.ooyala">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -108,7 +112,52 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java" line="136" class="com.dong.ooyala.PlayerActivity" package="com.dong.ooyala">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java" line="338" class="com.dong.ooyala.PlayerActivity.PluginCommandReceiver$1" package="com.dong.ooyala">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/dong/ooyala/OoyalaPlayerPlugin.java" line="218" class="com.dong.ooyala.OoyalaPlayerPlugin" package="com.dong.ooyala">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java" line="109" class="com.dong.ooyala.PlayerActivity" package="com.dong.ooyala">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java" line="201" class="com.dong.ooyala.PlayerActivity" package="com.dong.ooyala">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -136,80 +185,10 @@
       <file leaf-file-name="OoyalaPlayerPlugin.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/OoyalaPlayerPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="95" column="94" selection-start="4533" selection-end="4533" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BaseDexClassLoader.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://D:/Backup/Development/Android/Android_SDK/platforms/android-19/android.jar!/dalvik/system/BaseDexClassLoader.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="55" selection-start="845" selection-end="855" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CordovaApp.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/CordovaApp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="85" selection-start="1135" selection-end="1135" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlayerActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="31" selection-start="1275" selection-end="1275" vertical-scroll-proportion="0.34931508">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="e.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/libs/ima-android-sdk-beta8.jar!/com/google/ads/interactivemedia/v3/b/e.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="0" selection-start="2810" selection-end="2810" vertical-scroll-proportion="-9.12">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OoyalaIMAManager.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/libs/OoyalaIMASDK.jar!/com/ooyala/android/imasdk/OoyalaIMAManager.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="0" selection-start="2940" selection-end="2940" vertical-scroll-proportion="-9.12">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="37" selection-start="1146" selection-end="1198" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/xml/config.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="47" selection-start="695" selection-end="695" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="57" selection-start="394" selection-end="394" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="218" column="0" selection-start="9132" selection-end="9132" vertical-scroll-proportion="-5.76">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -217,12 +196,84 @@
       <file leaf-file-name="main.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
           <provider editor-type-id="text-editor">
-            <state line="46" column="18" selection-start="1530" selection-end="1530" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
           <provider selected="true" editor-type-id="android-designer">
             <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CordovaApp.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/CordovaApp.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="13" selection-start="956" selection-end="956" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/assets/www/js/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="96" column="111" selection-start="3216" selection-end="3216" vertical-scroll-proportion="0.39388794">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OoyalaPlayer.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/OoyalaPlayer.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="338" column="34" selection-start="16185" selection-end="16196" vertical-scroll-proportion="-8.44">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClosedCaptionsStyle.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/ClosedCaptionsStyle.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="23" selection-start="714" selection-end="714" vertical-scroll-proportion="-3.98">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ooyala_player.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/www/js/ooyala_player.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="253" column="17" selection-start="9197" selection-end="9210" vertical-scroll-proportion="-7.52">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/Constants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="135" column="38" selection-start="8564" selection-end="8571" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayerActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="324" column="109" selection-start="12291" selection-end="12291" vertical-scroll-proportion="-9.84">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cordova_plugins.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/www/cordova_plugins.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="3" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -236,30 +287,30 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/xml/config.xml" />
-        <option value="$PROJECT_DIR$/assets/www/index.html" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/com/dong/ooyala/IMASampleAppActivity.java" />
-        <option value="$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/OoyalaPlayer.class" />
-        <option value="$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/plugin/AdPluginInterface.class" />
-        <option value="$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/AdvertisingIdUtils.class" />
-        <option value="$PROJECT_DIR$/libs/OoyalaIMASDK.jar!/com/ooyala/android/imasdk/OoyalaIMAManager.class" />
-        <option value="$PROJECT_DIR$/src/com/dong/ooyala/CordovaApp.java" />
-        <option value="$PROJECT_DIR$/assets/www/js/index.js" />
-        <option value="$PROJECT_DIR$/assets/www/js/ooyala_player.js" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="D:/Backup/Development/Android/Android_SDK/platforms/android-19/android.jar!/dalvik/system/BaseDexClassLoader.class" />
         <option value="D:/Backup/Development/Android/Android_SDK/platforms/android-19/android.jar!/java/util/concurrent/FutureTask.class" />
+        <option value="$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/ui/OptimizedOoyalaPlayerLayoutController.class" />
+        <option value="$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/FetchPlaybackInfoCallback.class" />
+        <option value="$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/ui/OoyalaPlayerLayoutController.class" />
+        <option value="$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/ui/DefaultOoyalaPlayerInlineControls.class" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/CordovaLib/src/org/apache/cordova/CallbackContext.java" />
+        <option value="$PROJECT_DIR$/src/com/dong/ooyala/CallbackReceiver.java" />
+        <option value="$PROJECT_DIR$/src/com/dong/ooyala/CordovaApp.java" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/assets/www/js/ooyala_player.js" />
+        <option value="$PROJECT_DIR$/res/layout/main.xml" />
+        <option value="$PROJECT_DIR$/src/com/dong/ooyala/Constants.java" />
         <option value="$PROJECT_DIR$/src/com/dong/ooyala/OoyalaPlayerPlugin.java" />
         <option value="$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java" />
+        <option value="$PROJECT_DIR$/assets/www/js/index.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
+    <option name="x" value="1358" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="width" value="1296" />
+    <option name="height" value="1000" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -351,8 +402,22 @@
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="xml" />
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -367,6 +432,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -384,25 +453,102 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="DEBUGGABLE_PROCESS" value="com.dong.ooyala" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="AndroidLayoutSelectedEditor" value="android-designer" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="DEBUGGABLE_DEVICE" value="0123456789ABCDEF" />
+    <property name="DEBUGGABLE_PROCESS" value="com.dong.ooyala" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="AndroidLayoutSelectedEditor" value="android-designer" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="DEBUGGABLE_DEVICE" value="0123456789ABCDEF" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="RunManager" selected="Android Application.android">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -554,6 +700,23 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="aa608e87-670b-4c97-8e4a-c11b6e74e9b9" name="Default" comment="" />
@@ -562,32 +725,52 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="1358" y="-8" width="1296" height="1000" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23014587" sideWeight="0.7553444" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26661265" sideWeight="0.7553444" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3993174" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39904988" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3566553" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32897863" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3456057" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32897863" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.6006826" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23030303" sideWeight="0.67235494" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.267423" sideWeight="0.6543943" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24465558" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67235494" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.670068" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4129693" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3824228" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -657,23 +840,54 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/assets/www/js/ooyala_player.js">
+    <entry file="file://$PROJECT_DIR$/cordova/defaults.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="57" selection-start="1095" selection-end="1095" vertical-scroll-proportion="0.0">
+        <state line="20" column="31" selection-start="897" selection-end="897" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://D:/Backup/Development/Android/Android_SDK/platforms/android-19/android.jar!/android/widget/AdapterView.class">
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="28" selection-start="2763" selection-end="2763" vertical-scroll-proportion="0.0">
+        <state line="9" column="0" selection-start="394" selection-end="394" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CordovaLib/src/org/apache/cordova/CordovaPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="0" selection-start="3146" selection-end="3146" vertical-scroll-proportion="0.33183858">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CordovaLib/src/org/apache/cordova/PluginManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="160" column="48" selection-start="6309" selection-end="6309" vertical-scroll-proportion="0.2174888" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CordovaLib/src/org/apache/cordova/CordovaBridge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="44" selection-start="2674" selection-end="2674" vertical-scroll-proportion="0.2805139" />
+      </provider>
+    </entry>
+    <entry file="jar://D:/Backup/Development/Android/Android_SDK/platforms/android-19/android.jar!/java/lang/String.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="26" selection-start="2343" selection-end="2343" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/CordovaApp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="13" selection-start="956" selection-end="956" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
       <provider editor-type-id="text-editor">
-        <state line="46" column="18" selection-start="1530" selection-end="1530" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -681,89 +895,60 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+    <entry file="file://$PROJECT_DIR$/assets/www/cordova_plugins.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="57" selection-start="394" selection-end="394" vertical-scroll-proportion="0.0">
+        <state line="17" column="3" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://D:/Backup/Development/Android/Android_SDK/platforms/android-19/android.jar!/dalvik/system/BaseDexClassLoader.class">
+    <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="55" selection-start="845" selection-end="855" vertical-scroll-proportion="0.0">
+        <state line="135" column="38" selection-start="8564" selection-end="8571" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://D:/Backup/Development/Android/Android_SDK/platforms/android-19/android.jar!/java/util/concurrent/FutureTask.class">
+    <entry file="jar://$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/ClosedCaptionsStyle.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="0" selection-start="231" selection-end="1224" vertical-scroll-proportion="1.0759493" />
-      </provider>
-    </entry>
-    <entry file="jar://D:/Backup/Development/Android/Android_SDK/platforms/android-19/android.jar!/android/os/AsyncTask.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="2155" selection-end="2155" vertical-scroll-proportion="0.6772152" />
-      </provider>
-    </entry>
-    <entry file="jar://D:/Backup/Development/Android/Android_SDK/platforms/android-19/android.jar!/android/app/Activity.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="301" column="16" selection-start="12286" selection-end="12286" vertical-scroll-proportion="0.3322785" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CordovaLib/src/org/apache/cordova/CordovaInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="65" selection-start="1716" selection-end="1724" vertical-scroll-proportion="0.6118421">
-          <folding>
-            <element signature="e#0#2486#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="37" selection-start="1146" selection-end="1198" vertical-scroll-proportion="0.0">
+        <state line="21" column="23" selection-start="714" selection-end="714" vertical-scroll-proportion="-3.98">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/OoyalaIMASDK.jar!/com/ooyala/android/imasdk/OoyalaIMAManager.class">
+    <entry file="jar://$PROJECT_DIR$/libs/OoyalaSDK.jar!/com/ooyala/android/OoyalaPlayer.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="0" selection-start="2940" selection-end="2940" vertical-scroll-proportion="-9.12">
+        <state line="338" column="34" selection-start="16185" selection-end="16196" vertical-scroll-proportion="-8.44">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/ima-android-sdk-beta8.jar!/com/google/ads/interactivemedia/v3/b/e.class">
+    <entry file="file://$PROJECT_DIR$/assets/www/js/ooyala_player.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="0" selection-start="2810" selection-end="2810" vertical-scroll-proportion="-9.12">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/CordovaApp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="85" selection-start="1135" selection-end="1135" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/xml/config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="47" selection-start="695" selection-end="695" vertical-scroll-proportion="0.0">
+        <state line="253" column="17" selection-start="9197" selection-end="9210" vertical-scroll-proportion="-7.52">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/OoyalaPlayerPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="94" selection-start="4533" selection-end="4533" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="218" column="0" selection-start="9132" selection-end="9132" vertical-scroll-proportion="-5.76">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dong/ooyala/PlayerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="31" selection-start="1275" selection-end="1275" vertical-scroll-proportion="0.34931508">
+        <state line="324" column="109" selection-start="12291" selection-end="12291" vertical-scroll-proportion="-9.84">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/www/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="111" selection-start="3216" selection-end="3216" vertical-scroll-proportion="0.39388794">
           <folding />
         </state>
       </provider>

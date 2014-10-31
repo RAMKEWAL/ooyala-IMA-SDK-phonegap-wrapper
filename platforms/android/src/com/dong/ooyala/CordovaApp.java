@@ -24,7 +24,6 @@ import org.apache.cordova.*;
 
 public class CordovaApp extends CordovaActivity
 {
-    // TODO
     public static boolean bPlayerActivityRunning = false;
 
     @Override

@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -36,10 +37,64 @@ var app = {
         app.receivedEvent('deviceready');
 
         // For testing
-        app.setEmbedCodes();
-        app.setPcode();
-        app.setDomain();
-        app.play();
+        var pcode = 'cf6121d0b92d4760917dae9b93ae92f1';
+        var embedCode = 'h1aG5kcTrQz1rq8L2Pw6qF0Zn9zhmnAk';
+        var adsetCode = 'd01204eea15f466c92e890d14c7df8b6';
+        var domain = 'http://www.ooyala.com';
+
+        player = create_player(pcode, domain);
+        player.setEmbedCode(embedCode,
+            function(msg) {
+                console.log("success : " + msg);
+            },
+            function(msg) {
+                console.log("failure : " + msg);
+            }
+        );
+
+        player.setFullscreen(true, null, null);
+        player.setActionAtEnd(ActionAtEnd.PAUSE, null, null);
+
+        player.getMetadata(
+            function(msg){
+                console.log("success : " + msg);
+                alert("success : " + msg);
+            },
+            function(msg) {
+                console.log("failure : " + msg);
+                alert("failure : " + msg);
+            }
+        );
+
+        player.play(
+            function(msg) {
+                console.log(msg);
+            },
+            function(msg) {
+                console.log(msg);
+            }
+        );
+
+        // Listeners for message bus events
+        player.mb.subscribe(EVENTS.PAUSED, 'cordova-app',
+            function(params) {
+                console.log("player is paused.");
+                player.resume(null, null);
+                player.setFullscreen(true, null, null);
+            }
+        );
+
+        player.mb.subscribe(EVENTS.PLAYING, 'cordova-app',
+            function(params) {
+                console.log("player is playing");
+            }
+        );
+
+        player.mb.subscribe(EVENTS.SEEKED, 'cordova-app',
+            function(params) {
+                console.log("player is seeked");
+            }
+        );
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -51,38 +106,7 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-    },
-
-     setEmbedCodes: function() {
-             var success = function(message) { alert("Success"); };
-             var error = function(message) { alert("Oopsie! " + message); };
-
-             var embedCodes = ['h5OWFoYTrG4YIPdrDKrIz5-VhobsuT-M'];
-             ooyala_player.setEmbedCodes(embedCodes, success, error);
-     },
-
-     setPcode: function() {
-              var success = function(message) { alert("Success"); };
-              var error = function(message) { alert("Oopsie! " + message); };
-
-              var pcode = 'R2d3I6s06RyB712DN0_2GsQS-R-Y';
-              ooyala_player.setPcode(pcode, success, error);
-      },
-
-      setDomain: function() {
-                var success = function(message) { alert("Success"); };
-                var error = function(message) { alert("Oopsie! " + message); };
-
-                var domain = 'http://www.ooyala.com';
-                ooyala_player.setDomain(domain, success, error);
-        },
-
-        play : function() {
-                var success = function(message) { alert("Success"); };
-                var error = function(message) { alert("Oopsie! " + message); };
-
-                ooyala_player.play(success, error);
-        }
+    }
 };
 
 app.initialize();
