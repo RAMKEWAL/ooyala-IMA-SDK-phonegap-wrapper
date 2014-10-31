@@ -195,6 +195,10 @@ var ooyala_player = {
          [{"EmbedCodes":embedCodes, "AdSetCode":adsetcode}]);
     },
 
+    setExternalId: function(externalID, success, failure) {
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SET_EXTERNALID, [externalID]);
+    },
+
     setExternalIds: function(externalIDs, success, failure) {
         cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SET_EXTERNALIDS, externalIDs);
     },
@@ -228,11 +232,11 @@ var ooyala_player = {
     },
 
     pause: function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_XXX, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PAUSE, [null]);
     },
 
     play : function(success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PLAY, [null]);
+        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PLAY, [0]);
     },
 
     playWithInitialTime : function(time, success, failure) {

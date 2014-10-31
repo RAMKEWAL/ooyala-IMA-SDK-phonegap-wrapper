@@ -39,10 +39,17 @@ var app = {
         // For testing
         var pcode = 'cf6121d0b92d4760917dae9b93ae92f1';
         var embedCode = 'h1aG5kcTrQz1rq8L2Pw6qF0Zn9zhmnAk';
+        var embedCodes = ['h1aG5kcTrQz1rq8L2Pw6qF0Zn9zhmnAk'];
         var adsetCode = 'd01204eea15f466c92e890d14c7df8b6';
         var domain = 'http://www.ooyala.com';
+        var externalId = 'externalID';
+        var externalIds = ['externalID1', 'externalID2'];
+        var customAnalyticsTags = ['tag1', 'tag2'];
 
+        // Create ooyala player
         player = create_player(pcode, domain);
+
+        // Set embedcodes
         player.setEmbedCode(embedCode,
             function(msg) {
                 console.log("success : " + msg);
@@ -51,31 +58,49 @@ var app = {
                 console.log("failure : " + msg);
             }
         );
+        //player.setEmbedCodes(embedCodes, null, null);
+        //player.setEmbedCodeWithAdSetCode(embedCode, adsetCode, null, null);
+        //player.setEmbedCodesWithAdSetCode(embedCodes, adsetCode, null, null);
 
+        // Set fullscreen
         player.setFullscreen(true, null, null);
+
+        // Set external IDs .. Please change externalId(s) values to actual ones
+        //player.setExternalId(externalId, null, null);
+        //player.setExternalIds(externalIds, null, null);
+
+        // Set custom analytics tags
+        player.setCustomAnalyticsTags(customAnalyticsTags, null, null);
+
+        // Set custom DRM Data
+        player.setCustomDRMData('xxx', null, null);
+
+        // Set closed captions lang
+        player.setClosedCaptionsLanguage('eng', null, null);
+
+        // Set ads seekable
+        player.setAdsSeekable(true, null, null);
+
+        // Set video seekable
+        player.setSeekable(true, null, null);
+
+        // Set playhead time
+        //player.setPlayheadTime(20 * 1000);
+
+        // Set action at end
         player.setActionAtEnd(ActionAtEnd.PAUSE, null, null);
 
-        player.getMetadata(
-            function(msg){
-                console.log("success : " + msg);
-                alert("success : " + msg);
-            },
-            function(msg) {
-                console.log("failure : " + msg);
-                alert("failure : " + msg);
-            }
-        );
+        // Set closed captions presentation style
+        //player.setClosedCaptionsPresentationStyle(OOClosedCaptionPresentation.OOClosedCaptionPopOn, null, null);
 
-        player.play(
-            function(msg) {
-                console.log(msg);
-            },
-            function(msg) {
-                console.log(msg);
-            }
-        );
+        // Set closed captions bottom margin
+        //player.setClosedCaptionsBottomMargin(0, null, null);
 
-        // Listeners for message bus events
+        // Play video
+        player.play(null, null);
+        //player.playWithInitialTime(3 * 1000, null, null);
+
+        // LISTEN TO MESSAGE BUS EVENT
         player.mb.subscribe(EVENTS.PAUSED, 'cordova-app',
             function(params) {
                 console.log("player is paused.");
@@ -96,6 +121,7 @@ var app = {
             }
         );
     },
+
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);

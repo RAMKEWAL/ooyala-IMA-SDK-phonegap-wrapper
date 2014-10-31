@@ -223,8 +223,6 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
                     intent.putExtra(Constants.IP_ACTION, action);
                     intent.putExtra(Constants.IP_FULLSCREEN, bIsFullscreen);
                     this.cordova.getActivity().sendBroadcast(intent);
-                } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
                 }
 
                 return true;
