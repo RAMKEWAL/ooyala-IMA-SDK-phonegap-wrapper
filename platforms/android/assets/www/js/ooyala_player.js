@@ -179,6 +179,7 @@ var MessageBus = {
 
 var ooyala_player = {
     mb : null,
+    imaManager : null,
 
     setEmbedCode: function(embedCode, success, failure) {
         cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SET_EMBEDCODE, [embedCode]);
@@ -238,11 +239,11 @@ var ooyala_player = {
         cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PAUSE, []);
     },
 
-    play : function(success, failure) {
+    play: function(success, failure) {
         cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PLAY, []);
     },
 
-    playWithInitialTime : function(time, success, failure) {
+    playWithInitialTime: function(time, success, failure) {
         cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_PLAYWITHINITIALTIME, [time]);
     },
 

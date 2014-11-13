@@ -24,8 +24,6 @@ import org.apache.cordova.*;
 
 public class CordovaApp extends CordovaActivity
 {
-    public static boolean bPlayerActivityRunning = false;
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

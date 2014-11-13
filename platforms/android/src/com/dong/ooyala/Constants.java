@@ -42,10 +42,10 @@ public class Constants {
 
     public static final String IP_RET_BOOL = "BooleanRetVal";
 
-    // Action codes
+    // ACTION CODES
+    // Common
     public static final String ACTION_SET_MSGBUSEVENTHANDLER = "setMessageBusEventHandler";     // Private
     public static final String ACTION_CREATE_PLAYER = "createPlayer";                                                   // Private
-    public static final String ACTION_BEGIN_FETCHING_ADVERTISING_ID = "beginFetchingAdvertisingID";
     public static final String ACTION_SET_EMBEDCODE = "setEmbedCode";
     public static final String ACTION_SET_EMBEDCODES = "setEmbedCodes";
     public static final String ACTION_SET_EMBEDCODE_WITHADSETCODE = "setEmbedCodeWithAdSetCode";
@@ -53,48 +53,48 @@ public class Constants {
     public static final String ACTION_SET_EXTERNALID = "setExternalId";
     public static final String ACTION_SET_EXTERNALIDS = "setExternalIds";
     public static final String ACTION_CHANGECURRENTITEM = "changeCurrentItem";
-    public static final String ACTION_GET_METADATA = "getMetadata";
-    public static final String ACTION_GET_EMBEDCODE = "getEmbedCode";
-    public static final String ACTION_GET_AUTHTOKEN = "getAuthToken";
-    public static final String ACTION_GET_CUSTOMDRMDATA = "getCustomDRMData";
-    public static final String ACTION_SET_CUSTOMDRMDATA = "setCustomDRMData";
+    public static final String ACTION_GET_PLAYHEADTIME = "getPlayheadTime";
+    public static final String ACTION_GET_DURATION = "getDuration";
+    public static final String ACTION_SET_PLAYHEADTIME = "setPlayheadTime";
     public static final String ACTION_GET_STATE = "getState";
     public static final String ACTION_PAUSE = "pause";
     public static final String ACTION_PLAY = "play";
     public static final String ACTION_PLAYWITHINITIALTIME = "playWithInitialTime";
+    public static final String ACTION_SEEK = "seek";
+    public static final String ACTION_ISPLAYING = "isPlaying";
+    public static final String ACTION_ISSHOWINGAD = "isShowingAd";
+    public static final String ACTION_NEXTVIDEO = "nextVideo";
+    public static final String ACTION_PREVIOUSVIDEO = "previousVideo";
+    public static final String ACTION_GET_AVAILABLECLOSEDCAPTIONSLANGUAGES = "getAvailableClosedCaptionsLanguages";
+    public static final String ACTION_SET_CLOSEDCAPTIONSLANGUAGE = "setClosedCaptionsLanguage";
+    public static final String ACTION_SET_CLOSEDCAPTIONSPRESENTATIONSTYLE = "setClosedCaptionsPresentationStyle";
+    public static final String ACTION_GET_BITRATE = "getBitrate";
+    public static final String ACTION_RESETADS = "resetAds";
+    public static final String ACTION_SKIPAD = "skipAd";
+    public static final String ACTION_SET_CUSTOMANALYTICSTAGS = "setCustomAnalyticsTags";
+    public static final String ACTION_GET_METADATA = "getMetadata";
+    public static final String ACTION_SEEKABLE = "seekable";
+    public static final String ACTION_SET_SEEKABLE = "setSeekable";
+    public static final String ACTION_SET_ADS_SEEKABLE = "setAdsSeekable";
+    public static final String ACTION_GET_SEEKSTYLE = "getSeekStyle";
+    public static final String ACTION_GET_CLOSEDCAPTIONSLANGUAGE = "getClosedCaptionsLanguage";
+    public static final String ACTION_GET_ACTIONATEND = "getActionAtEnd";
+    public static final String ACTION_SET_ACTIONATEND = "setActionAtEnd";
+    public static final String ACTION_GET_AUTHTOKEN = "getAuthToken";
+
+    // Android only
+    public static final String ACTION_GET_EMBEDCODE = "getEmbedCode";
+    public static final String ACTION_GET_CUSTOMDRMDATA = "getCustomDRMData";
+    public static final String ACTION_SET_CUSTOMDRMDATA = "setCustomDRMData";
     public static final String ACTION_SUSPEND = "suspend";
     public static final String ACTION_RESUME = "resume";
     public static final String ACTION_ISFULLSCREEN = "isFullscreen";
     public static final String ACTION_SET_FULLSCREEN = "setFullscreen";
-    public static final String ACTION_GET_TOPBAROFFSET = "getTopBarOffset";
-    public static final String ACTION_GET_PLAYHEADTIME = "getPlayheadTime";
-    public static final String ACTION_SET_PLAYHEADTIME = "setPlayheadTime";
-    public static final String ACTION_SEEKABLE = "seekable";
-    public static final String ACTION_SEEK = "seek";
-    public static final String ACTION_PREVIOUSVIDEO = "previousVideo";
-    public static final String ACTION_NEXTVIDEO = "nextVideo";
-    public static final String ACTION_GET_ACTIONATEND = "getActionAtEnd";
-    public static final String ACTION_SET_ACTIONATEND = "setActionAtEnd";
-    public static final String ACTION_SET_CLOSEDCAPTIONSLANGUAGE = "setClosedCaptionsLanguage";
-    public static final String ACTION_SET_CLOSEDCAPTIONSPRESENTATIONSTYLE = "setClosedCaptionsPresentationStyle";
-    public static final String ACTION_GET_CLOSEDCAPTIONSLANGUAGE = "getClosedCaptionsLanguage";
-    public static final String ACTION_GET_AVAILABLECLOSEDCAPTIONSLANGUAGES = "getAvailableClosedCaptionsLanguages";
-    public static final String ACTION_GET_BITRATE = "getBitrate";
-    public static final String ACTION_ISPLAYING = "isPlaying";
     public static final String ACTION_ISADPLAYING = "isAdPlaying";
     public static final String ACTION_SEEKTOPERCENT = "seekToPercent";
-    public static final String ACTION_GET_DURATION = "getDuration";
     public static final String ACTION_GET_BUFFER_PERCENTAGE = "getBufferPercentage";
     public static final String ACTION_GET_PLAYHEAD_PERCENTAGE = "getPlayheadPercentage";
-    public static final String ACTION_SET_ADS_SEEKABLE = "setAdsSeekable";
-    public static final String ACTION_SET_SEEKABLE = "setSeekable";
-    public static final String ACTION_RESETADS = "resetAds";
-    public static final String ACTION_SKIPAD = "skipAd";
-    public static final String ACTION_ISSHOWINGAD = "isShowingAd";
-    public static final String ACTION_SET_CLOSEDCAPTIONSBOTTOMMARGIN = "setClosedCaptionsBottomMargin";
     public static final String ACTION_DISPLAYCLOSEDCAPTIONTEXT = "displayClosedCaptionText";
-    public static final String ACTION_SET_CUSTOMANALYTICSTAGS = "setCustomAnalyticsTags";
-    public static final String ACTION_GET_SEEKSTYLE = "getSeekStyle";
     public static final String ACTION_GET_CUEPOINTSINMILLISECONDS = "getCuePointsInMilliSeconds";
     public static final String ACTION_GET_CUEPOINTSINPERCENTAGE = "getCuePointsInPercentage";
 

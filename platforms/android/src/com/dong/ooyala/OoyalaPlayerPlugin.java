@@ -1,18 +1,24 @@
 package com.dong.ooyala;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
+import com.ooyala.android.ClosedCaptionsStyle;
+import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.OoyalaPlayerLayout;
+import com.ooyala.android.PlayerDomain;
+import com.ooyala.android.ui.OptimizedOoyalaPlayerLayoutController;
 import org.apache.cordova.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,32 +28,72 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class OoyalaPlayerPlugin extends CordovaPlugin {
-    // Constants
-    private static final String MSGERR_NOPLAYERACTIVITY = "Player activity is not opened yet";
-
     // Member variables
-    private String sPcode;
-    private String sDomain;
-    private String adSetCode;
-    private int initialPlayTime;
-    private ArrayList<String> aEmbedCodes;
-    private ArrayList<String> aExternalIDs;
-    private ArrayList<String> aCustomAnalyticsTags;
-    private boolean bIsFullscreen;
-    private String sCustomDRMData;
-    private String sClosedCaptionsLang;
-    private boolean bAdsSeekable;
-    private boolean bSeekable;
-    private int playHeadTime;
-    private int actionAtEnd;
-    private int closedCaptionsPresentationStyle;
-    private int closedCaptionsBottomMargin;
-    private String sAdUrlOverride;
-    private HashMap<String, String> adTagParams;
+    ArrayList<String> m_aEmbedCodes = new ArrayList<String>();
+    ArrayList<String> m_aExternalIDs = new ArrayList<String>();
+    ArrayList<String> m_aCustomAnalyticsTags = new ArrayList<String>();
+
+    // Callback contexts
+    private CallbackContext cbc_setEmbedCode;
+    private CallbackContext cbc_setEmbedCodes;
+    private CallbackContext cbc_setEmbedCodeWithAdSetCode;
+    private CallbackContext cbc_setEmbedCodesWithAdSetCode;
+    private CallbackContext cbc_setExternalId;
+    private CallbackContext cbc_setExternalIds;
+    private CallbackContext cbc_changeCurrentItem;
+    private CallbackContext cbc_getPlayheadTime;
+    private CallbackContext cbc_getDuration;
+    private CallbackContext cbc_setPlayheadTime;
+    private CallbackContext cbc_getState;
+    private CallbackContext cbc_pause;
+    private CallbackContext cbc_play;
+    private CallbackContext cbc_playWithInitialTime;
+    private CallbackContext cbc_seek;
+    private CallbackContext cbc_isPlaying;
+    private CallbackContext cbc_isShowingAd;
+    private CallbackContext cbc_nextVideo;
+    private CallbackContext cbc_previousVideo;
+    private CallbackContext cbc_getAvailableClosedCaptionsLanguages;
+    private CallbackContext cbc_setClosedCaptionsLanguage;
+    private CallbackContext cbc_setClosedCaptionsPresentationStyle;
+    private CallbackContext cbc_getBitrate;
+    private CallbackContext cbc_resetAds;
+    private CallbackContext cbc_skipAd;
+    private CallbackContext cbc_setCustomAnalyticsTags;
+    private CallbackContext cbc_getMetadata;
+    private CallbackContext cbc_seekable;
+    private CallbackContext cbc_setSeekable;
+    private CallbackContext cbc_setAdsSeekable;
+    private CallbackContext cbc_getSeekStyle;
+    private CallbackContext cbc_getClosedCaptionsLanguage;
+    private CallbackContext cbc_getActionAtEnd;
+    private CallbackContext cbc_setActionAtEnd;
+    private CallbackContext cbc_getAuthToken;
+    private CallbackContext cbc_getEmbedCode;
+    private CallbackContext cbc_getCustomDRMData;
+    private CallbackContext cbc_setCustomDRMData;
+    private CallbackContext cbc_suspend;
+    private CallbackContext cbc_resume;
+    private CallbackContext cbc_isFullscreen;
+    private CallbackContext cbc_setFullscreen;
+    private CallbackContext cbc_isAdPlaying;
+    private CallbackContext cbc_seekToPercent;
+    private CallbackContext cbc_getBufferPercentage;
+    private CallbackContext cbc_getPlayheadPercentage;
+    private CallbackContext cbc_displayClosedCaptionText;
+    private CallbackContext cbc_getCuePointsInMilliSeconds;
+    private CallbackContext cbc_getCuePointsInPercentage;
 
     private CallbackContext msgBusEventCallback = null;
     private HashMap<String, CallbackContext>  actionCallbacks;
     private PlayerActivityEventReceiver receiver = null;
+
+    // UI
+    private Activity cordovaActivity = null;
+    private FrameLayout playerParentLayout = null;
+    private OoyalaPlayerLayout playerLayout = null;
+    private OoyalaPlayer player = null;
+
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView)
@@ -70,28 +116,6 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
         super.onDestroy();
     }
 
-    private void initVariables() {
-        // Initialize variables to send as intent params to player activity
-        sPcode = null;
-        sDomain = null;
-        adSetCode = null;
-        initialPlayTime = 0;
-        aEmbedCodes = new ArrayList<String>();
-        aExternalIDs = new ArrayList<String>();
-        aCustomAnalyticsTags = new ArrayList<String>();
-        bIsFullscreen = false;
-        sCustomDRMData = null;
-        sClosedCaptionsLang = null;
-        bAdsSeekable = false;
-        bSeekable = true;
-        playHeadTime = -1;
-        actionAtEnd = -1;
-        closedCaptionsPresentationStyle = -1;
-        closedCaptionsBottomMargin = -1;
-        sAdUrlOverride = null;
-        adTagParams = new HashMap<String, String>();
-    }
-
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
@@ -103,368 +127,933 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
 
                 return true;
             } else if (Constants.ACTION_CREATE_PLAYER.equals(action)) {
-                initVariables();
+                // Get cordova activity
+                cordovaActivity = cordova.getActivity();
 
+                // Create player with pcode and domain
                 JSONObject jsonObject = args.getJSONObject(0);
-                sPcode = jsonObject.getString("pcode");
-                sDomain = jsonObject.getString("domain");
+                final String sPcode = jsonObject.getString("pcode");
+                final String sDomain = jsonObject.getString("domain");
+                cordovaActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LayoutInflater layoutInflater = cordovaActivity.getLayoutInflater();
+                        FrameLayout activityLayout = (FrameLayout) cordovaActivity.findViewById(android.R.id.content);
+
+                        if (player != null) {
+                            player.deleteObservers();
+                            player.pause();
+                        }
+                        if (playerParentLayout != null) activityLayout.removeView(playerParentLayout);
+
+                        playerParentLayout = (FrameLayout) layoutInflater.inflate(com.dong.ooyala.R.layout.player, null);
+                        playerParentLayout.setVisibility(View.INVISIBLE);
+                        activityLayout.addView(playerParentLayout);
+                        playerLayout = (OoyalaPlayerLayout) playerParentLayout.findViewById(R.id.ooyalaPlayer);
+                        boolean bCreatedPlayer = true;
+                        try {
+                            OptimizedOoyalaPlayerLayoutController playerLayoutController = new OptimizedOoyalaPlayerLayoutController(playerLayout,
+                                    sPcode, new PlayerDomain(sDomain));
+                            player = playerLayoutController.getPlayer();
+                            player.addObserver(playerObserver);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            bCreatedPlayer = false;
+                        }
+
+                        // Publish 'PLAYER_CREATED' event
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put(Constants.IP_EVENT, Constants.PLAYER_CREATED);
+                            jsonObject.put(Constants.IP_PARAMS, bCreatedPlayer);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        sendCallbackEvent(jsonObject);
+                    }
+                });
 
                 return true;
 
             // Later set able methods
             } else if (Constants.ACTION_SET_EMBEDCODE.equals(action)) {
-                if (args.length() > 0) {
-                    aEmbedCodes.clear();
-                    aEmbedCodes.add(args.getString(0));
-                    adSetCode = null;
-
-                    if (CordovaApp.bPlayerActivityRunning) {
-                        Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                        intent.putExtra(Constants.IP_ACTION, action);
-                        intent.putExtra(Constants.IP_EMBEDCODE, aEmbedCodes.get(0));
-                        this.cordova.getActivity().sendBroadcast(intent);
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setEmbedCode] failed : embed code is missing");
+                } else {
+                    final String sEmbedCode = args.getString(0);
+                    if (player != null) {
+                        cbc_setEmbedCode = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean bRet = player.setEmbedCode(sEmbedCode);
+                                cbc_setEmbedCode.success(bRet ? "true" : "false");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setEmbedCode] failed : player is not created");
                     }
                 }
 
                 return true;
             } else if (Constants.ACTION_SET_EMBEDCODES.equals(action)) {
-                if (args.length() > 0) {
-                    aEmbedCodes.clear();
-                    for (int i = 0; i < args.length(); i ++) aEmbedCodes.add(args.getString(i));
-                    adSetCode = null;
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setEmbedCodes] failed : embed codes are missing");
+                } else {
+                    m_aEmbedCodes.clear();
+                    for (int i = 0; i < args.length(); i ++) m_aEmbedCodes.add(args.getString(i));
 
-                    if (CordovaApp.bPlayerActivityRunning) {
-                        Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                        intent.putExtra(Constants.IP_ACTION, action);
-                        intent.putExtra(Constants.IP_EMBEDCODES, aEmbedCodes);
-                        this.cordova.getActivity().sendBroadcast(intent);
+                    if (player != null) {
+                        cbc_setEmbedCodes = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean bRet = player.setEmbedCodes(m_aEmbedCodes);
+                                cbc_setEmbedCodes.success(bRet ? "true" : "false");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setEmbedCodes] failed : player is not created");
                     }
                 }
 
                 return true;
             } else if (Constants.ACTION_SET_EMBEDCODE_WITHADSETCODE.equals(action)) {
-                if (args.length() > 0) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setEmbedCodeWithAdSetCode] failed : embed code and adset code are missing");
+                } else {
                     JSONObject jsonObject = args.getJSONObject(0);
-                    aEmbedCodes.clear();
-                    aEmbedCodes.add(jsonObject.getString("EmbedCode"));
-                    adSetCode = jsonObject.getString("AdSetCode");
+                    final String sEmbedCode = jsonObject.getString("EmbedCode");
+                    final String sAdSetCode = jsonObject.getString("AdSetCode");
 
-                    if (CordovaApp.bPlayerActivityRunning) {
-                        Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                        intent.putExtra(Constants.IP_ACTION, action);
-                        intent.putExtra(Constants.IP_EMBEDCODE, aEmbedCodes.get(0));
-                        intent.putExtra(Constants.IP_ADSETCODE, adSetCode);
-                        this.cordova.getActivity().sendBroadcast(intent);
+                    if (player != null) {
+                        cbc_setEmbedCodeWithAdSetCode = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean bRet = player.setEmbedCodeWithAdSetCode(sEmbedCode, sAdSetCode);
+                                cbc_setEmbedCodeWithAdSetCode.success(bRet ? "true" : "false");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setEmbedCodeWithAdSetCode] failed : player is not created");
                     }
                 }
 
                 return true;
             } else if (Constants.ACTION_SET_EMBEDCODES_WITHADSETCODE.equals(action)) {
-                if (args.length() > 0) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setEmbedCodesWithAdSetCode] failed : embed codes and adset code are missing");
+                } else {
                     JSONObject jsonObject = args.getJSONObject(0);
                     JSONArray embedCodes = jsonObject.getJSONArray("EmbedCodes");
+                    final String sAdSetCode = jsonObject.getString("AdSetCode");
 
-                    aEmbedCodes.clear();
-                    for (int i = 0; i < embedCodes.length(); i ++) aEmbedCodes.add(embedCodes.getString(i));
-                    adSetCode = jsonObject.getString("AdSetCode");
+                    m_aEmbedCodes.clear();
+                    for (int i = 0; i < embedCodes.length(); i ++) m_aEmbedCodes.add(embedCodes.getString(i));
 
-                    if (CordovaApp.bPlayerActivityRunning) {
-                        Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                        intent.putExtra(Constants.IP_ACTION, action);
-                        intent.putExtra(Constants.IP_EMBEDCODES, aEmbedCodes);
-                        intent.putExtra(Constants.IP_ADSETCODE, adSetCode);
-                        this.cordova.getActivity().sendBroadcast(intent);
+                    if (player != null) {
+                        cbc_setEmbedCodesWithAdSetCode = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean bRet = player.setEmbedCodesWithAdSetCode(m_aEmbedCodes, sAdSetCode);
+                                cbc_setEmbedCodesWithAdSetCode.success(bRet ? "true" : "false");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setEmbedCodesWithAdSetCode] failed : player is not created");
                     }
                 }
 
                 return true;
             } else if (Constants.ACTION_SET_EXTERNALID.equals(action)) {
-                if (args.length() > 0) {
-                    aExternalIDs.clear();
-                    aExternalIDs.add(args.getString(0));
-
-                    if (CordovaApp.bPlayerActivityRunning) {
-                        Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                        intent.putExtra(Constants.IP_ACTION, action);
-                        intent.putExtra(Constants.IP_EXTERNALID, aExternalIDs.get(0));
-                        this.cordova.getActivity().sendBroadcast(intent);
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setExternalId] failed : external id is missing");
+                } else {
+                    final String sExternalID = args.getString(0);
+                    if (player != null) {
+                        cbc_setExternalId = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean bRet = player.setExternalId(sExternalID);
+                                cbc_setExternalId.success(bRet ? "true" : "false");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setExternalId] failed : player is not created");
                     }
                 }
 
                 return true;
             } else if (Constants.ACTION_SET_EXTERNALIDS.equals(action)) {
-                if (args.length() > 0) {
-                    aExternalIDs.clear();
-                    for (int i = 0; i < args.length(); i ++) aExternalIDs.add(args.getString(i));
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setExternalIds] failed : external ids are missing");
+                } else {
+                    m_aExternalIDs.clear();
+                    for (int i = 0; i < args.length(); i ++) m_aExternalIDs.add(args.getString(i));
 
-                    if (CordovaApp.bPlayerActivityRunning) {
-                        Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                        intent.putExtra(Constants.IP_ACTION, action);
-                        intent.putExtra(Constants.IP_EXTERNALIDS, aExternalIDs);
-                        this.cordova.getActivity().sendBroadcast(intent);
+                    if (player != null) {
+                        cbc_setExternalIds = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean bRet = player.setExternalIds(m_aExternalIDs);
+                                cbc_setExternalIds.success(bRet ? "true" : "false");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setExternalIds] failed : player is not created");
                     }
                 }
 
                 return true;
-            } else if (Constants.ACTION_SET_CUSTOMANALYTICSTAGS.equals(action)) {
-                if (args.length() > 0) {
-                    aCustomAnalyticsTags.clear();
-                    for (int i = 0; i < args.length(); i ++) aCustomAnalyticsTags.add(args.getString(i));
-
-                    if (CordovaApp.bPlayerActivityRunning) {
-                        Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                        intent.putExtra(Constants.IP_ACTION, action);
-                        intent.putExtra(Constants.IP_CUSTOMANALYTICSTAGS, aCustomAnalyticsTags);
-                        this.cordova.getActivity().sendBroadcast(intent);
+            } else if (Constants.ACTION_CHANGECURRENTITEM.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[changeCurrentItem] failed : embed code is missing");
+                } else {
+                    final String sEmbedCode = args.getString(0);
+                    if (player != null) {
+                        cbc_changeCurrentItem = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean bRet = player.changeCurrentItem(sEmbedCode);
+                                cbc_changeCurrentItem.success(bRet ? "true" : "false");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[changeCurrentItem] failed : player is not created");
                     }
                 }
 
                 return true;
-            } else if (Constants.ACTION_SET_FULLSCREEN.equals(action)) {
-                bIsFullscreen = args.getBoolean(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_FULLSCREEN, bIsFullscreen);
-                    this.cordova.getActivity().sendBroadcast(intent);
+            } else if (Constants.ACTION_GET_PLAYHEADTIME.equals(action)) {
+                if (player != null) {
+                    cbc_getPlayheadTime = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int playheadTime = player.getPlayheadTime();
+                            cbc_getPlayheadTime.success(playheadTime);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getPlayheadTime] failed : player is not created");
                 }
 
                 return true;
-            } else if (Constants.ACTION_SET_CUSTOMDRMDATA.equals(action)) {
-                sCustomDRMData = args.getString(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_CUSTOMDRMDATA, sCustomDRMData);
-                    this.cordova.getActivity().sendBroadcast(intent);
+            } else if (Constants.ACTION_GET_DURATION.equals(action)) {
+                if (player != null) {
+                    cbc_getDuration = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int duration = player.getDuration();
+                            cbc_getDuration.success(duration);
+                        }
+                    });
                 } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
-                }
-
-                return true;
-            } else if (Constants.ACTION_SET_CLOSEDCAPTIONSLANGUAGE.equals(action)) {
-                sClosedCaptionsLang = args.getString(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_CLOSEDCAPTIONSLANG, sClosedCaptionsLang);
-                    this.cordova.getActivity().sendBroadcast(intent);
-                } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
-                }
-
-                return true;
-
-            } else if (Constants.ACTION_SET_ADS_SEEKABLE.equals(action)) {
-                bAdsSeekable = args.getBoolean(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_ADSSEEKABLE, bAdsSeekable);
-                    this.cordova.getActivity().sendBroadcast(intent);
-                } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
-                }
-
-                return true;
-            } else if (Constants.ACTION_SET_SEEKABLE.equals(action)) {
-                bSeekable = args.getBoolean(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_SEEKABLE, bSeekable);
-                    this.cordova.getActivity().sendBroadcast(intent);
-                } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                    callbackContext.error("[getDuration] failed : player is not created");
                 }
 
                 return true;
             } else if (Constants.ACTION_SET_PLAYHEADTIME.equals(action)) {
-                playHeadTime = args.getInt(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_PLAYHEADTIME, playHeadTime);
-                    this.cordova.getActivity().sendBroadcast(intent);
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setPlayheadTime] failed : time is missing");
                 } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                    final int time = args.getInt(0);
+                    if (player != null) {
+                        cbc_setPlayheadTime = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.setPlayheadTime(time);
+                                cbc_setPlayheadTime.success("[setPlayheadTime] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setPlayheadTime] failed : player is not created");
+                    }
                 }
 
                 return true;
-            } else if (Constants.ACTION_SET_ACTIONATEND.equals(action)) {
-                actionAtEnd = args.getInt(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_ACTIONATEND, actionAtEnd);
-                    this.cordova.getActivity().sendBroadcast(intent);
+            } else if (Constants.ACTION_GET_STATE.equals(action)) {
+                if (player != null) {
+                    cbc_getState = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            OoyalaPlayer.State state = player.getState();
+                            int ordinal = state.ordinal();
+                            cbc_getState.success(ordinal);
+                        }
+                    });
                 } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                    callbackContext.error("[getState] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_PAUSE.equals(action)) {
+                if (player != null) {
+                    cbc_pause = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            player.pause();
+                            cbc_pause.success("[pause] success");
+                        }
+                    });
+                } else {
+                    callbackContext.error("[pause] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_PLAY.equals(action)) {
+                if (player != null) {
+                    cbc_play = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            playerParentLayout.setVisibility(View.VISIBLE);
+                            player.play();
+                            cbc_play.success("[play] success");
+                        }
+                    });
+                } else {
+                    callbackContext.error("[play] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_PLAYWITHINITIALTIME.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[playWithInitialTime] failed : embed code is missing");
+                } else {
+                    final int time = args.getInt(0);
+                    if (player != null) {
+                        cbc_playWithInitialTime = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.play(time);
+                                cbc_playWithInitialTime.success("[playWithInitialTime] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[playWithInitialTime] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_SEEK.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[seek] failed : embed code is missing");
+                } else {
+                    final int time = args.getInt(0);
+                    if (player != null) {
+                        cbc_seek = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.seek(time);
+                                cbc_seek.success("[seek] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[seek] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_ISPLAYING.equals(action)) {
+                if (player != null) {
+                    cbc_isPlaying = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean bIsPlaying = player.isPlaying();
+                            cbc_isPlaying.success(bIsPlaying ? "true" : "false");
+                        }
+                    });
+                } else {
+                    callbackContext.error("[isPlaying] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_ISSHOWINGAD.equals(action)) {
+                if (player != null) {
+                    cbc_isShowingAd = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean bIsShowingAd = player.isShowingAd();
+                            cbc_isShowingAd.success(bIsShowingAd ? "true" : "false");
+                        }
+                    });
+                } else {
+                    callbackContext.error("[isShowingAd] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_NEXTVIDEO.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[nextVideo] failed : param is missing");
+                } else {
+                    final int what = args.getInt(0);
+                    if (player != null) {
+                        cbc_nextVideo = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean bRet = player.nextVideo(what);
+                                cbc_nextVideo.success(bRet ? "true" : "false");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[nextVideo] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_PREVIOUSVIDEO.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[previousVideo] failed : param is missing");
+                } else {
+                    final int what = args.getInt(0);
+                    if (player != null) {
+                        cbc_previousVideo = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean bRet = player.previousVideo(what);
+                                cbc_previousVideo.success(bRet ? "true" : "false");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[previousVideo] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_AVAILABLECLOSEDCAPTIONSLANGUAGES.equals(action)) {
+                if (player != null) {
+                    cbc_getAvailableClosedCaptionsLanguages = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Set<String> availableClosedCaptionsLanguages = player.getAvailableClosedCaptionsLanguages();
+                            JSONArray jsonArray = new JSONArray();
+                            for (String lang : availableClosedCaptionsLanguages) {
+                                jsonArray.put(lang);
+                            }
+                            cbc_getAvailableClosedCaptionsLanguages.success(jsonArray);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getAvailableClosedCaptionsLanguages] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_SET_CLOSEDCAPTIONSLANGUAGE.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setClosedCaptionsLanguage] failed : language is missing");
+                } else {
+                    final String sLang = args.getString(0);
+                    if (player != null) {
+                        cbc_setClosedCaptionsLanguage = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.setClosedCaptionsLanguage(sLang);
+                                cbc_setClosedCaptionsLanguage.success("[setClosedCaptionsLanguage] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setClosedCaptionsLanguage] failed : player is not created");
+                    }
                 }
 
                 return true;
             } else if (Constants.ACTION_SET_CLOSEDCAPTIONSPRESENTATIONSTYLE.equals(action)) {
-                closedCaptionsPresentationStyle = args.getInt(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_CLOSEDCAPTIONSPRESENTATIONSTYLE, closedCaptionsPresentationStyle);
-                    this.cordova.getActivity().sendBroadcast(intent);
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setClosedCaptionsPresentationStyle] failed : presentation style is missing");
                 } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                    final String sPresentationStyle = args.getString(0);
+                    if (player != null) {
+                        cbc_setClosedCaptionsPresentationStyle = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.setClosedCaptionsPresentationStyle(ClosedCaptionsStyle.OOClosedCaptionPresentation.valueOf(sPresentationStyle));
+                                cbc_setClosedCaptionsPresentationStyle.success("[setClosedCaptionsPresentationStyle] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setClosedCaptionsPresentationStyle] failed : player is not created");
+                    }
                 }
 
                 return true;
-            } else if (Constants.ACTION_SET_CLOSEDCAPTIONSBOTTOMMARGIN.equals(action)) {
-                closedCaptionsBottomMargin = args.getInt(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_CLOSEDCAPTIONSBOTTOMMARGIN, closedCaptionsBottomMargin);
-                    this.cordova.getActivity().sendBroadcast(intent);
+            } else if (Constants.ACTION_GET_BITRATE.equals(action)) {
+                if (player != null) {
+                    cbc_getBitrate = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            double bitrate = player.getBitrate();
+                            cbc_getBitrate.success(String.valueOf(bitrate));
+                        }
+                    });
                 } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                    callbackContext.error("[getBitrate] failed : player is not created");
                 }
 
                 return true;
-            // Player running needs methods
-            } else if (Constants.ACTION_CHANGECURRENTITEM.equals(action) ||
-                        Constants.ACTION_DISPLAYCLOSEDCAPTIONTEXT.equals(action)) {
-                if (CordovaApp.bPlayerActivityRunning) {
-                    String strVal = args.getString(0);
-
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_STRINGVAL, strVal);
-                    this.cordova.getActivity().sendBroadcast(intent);
+            } else if (Constants.ACTION_RESETADS.equals(action)) {
+                if (player != null) {
+                    cbc_resetAds = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            player.resetAds();
+                            cbc_resetAds.success("[resetAds] success");
+                        }
+                    });
                 } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                    callbackContext.error("[resetAds] failed : player is not created");
                 }
 
                 return true;
-            } else if (Constants.ACTION_SEEK.equals(action) ||
-                        Constants.ACTION_PREVIOUSVIDEO.equals(action) ||
-                        Constants.ACTION_NEXTVIDEO.equals(action) ||
-                        Constants.ACTION_SEEKTOPERCENT.equals(action)) {
-                if (CordovaApp.bPlayerActivityRunning) {
-                    int intVal = args.getInt(0);
-
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_INTVAL, intVal);
-                    this.cordova.getActivity().sendBroadcast(intent);
+            } else if (Constants.ACTION_SKIPAD.equals(action)) {
+                if (player != null) {
+                    cbc_skipAd = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            player.skipAd();
+                            cbc_skipAd.success("[skipAd] success");
+                        }
+                    });
                 } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                    callbackContext.error("[skipAd] failed : player is not created");
                 }
 
                 return true;
-            } else if (Constants.ACTION_PLAY.equals(action) ||
-                        Constants.ACTION_PLAYWITHINITIALTIME.equals(action)) {
-                Intent intent = new Intent(OoyalaPlayerPlugin.this.cordova.getActivity(), PlayerActivity.class);
-
-                if (args.length() == 0) {
-                    initialPlayTime = 0;
+            } else if (Constants.ACTION_SET_CUSTOMANALYTICSTAGS.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setCustomAnalyticsTags] failed : tags are missing");
                 } else {
-                    initialPlayTime = args.getInt(0);
-                }
+                    m_aCustomAnalyticsTags.clear();
+                    for (int i = 0; i < args.length(); i ++) m_aCustomAnalyticsTags.add(args.getString(i));
 
-                if (sPcode != null) {
-                    intent.putExtra(Constants.IP_PCODE, sPcode);
-                }
-                if (sDomain != null) {
-                    intent.putExtra(Constants.IP_DOMAIN, sDomain);
-                }
-                if (adSetCode != null) {
-                    intent.putExtra(Constants.IP_ADSETCODE, adSetCode);
-                }
-                if (aEmbedCodes.size() > 0) {
-                    intent.putExtra(Constants.IP_EMBEDCODES, aEmbedCodes);
-                }
-                if (aExternalIDs.size() > 0) {
-                    intent.putExtra(Constants.IP_EXTERNALIDS, aExternalIDs);
-                }
-                if (aCustomAnalyticsTags.size() > 0) {
-                    intent.putExtra(Constants.IP_CUSTOMANALYTICSTAGS, aCustomAnalyticsTags);
-                }
-                if (initialPlayTime > 0) {
-                    intent.putExtra(Constants.IP_INITPLAYTIME, initialPlayTime);
-                }
-                intent.putExtra(Constants.IP_FULLSCREEN, bIsFullscreen);
-                if (sCustomDRMData != null) {
-                    intent.putExtra(Constants.IP_CUSTOMDRMDATA, sCustomDRMData);
-                }
-                if (sClosedCaptionsLang != null) {
-                    intent.putExtra(Constants.IP_CLOSEDCAPTIONSLANG, sClosedCaptionsLang);
-                }
-                intent.putExtra(Constants.IP_ADSSEEKABLE, bAdsSeekable);
-                intent.putExtra(Constants.IP_SEEKABLE, bSeekable);
-                if (playHeadTime != -1) {
-                    intent.putExtra(Constants.IP_PLAYHEADTIME, playHeadTime);
-                }
-                if (actionAtEnd != -1) {
-                    intent.putExtra(Constants.IP_ACTIONATEND, actionAtEnd);
-                }
-                if (closedCaptionsPresentationStyle != -1) {
-                    intent.putExtra(Constants.IP_CLOSEDCAPTIONSPRESENTATIONSTYLE, closedCaptionsPresentationStyle);
-                }
-                if (closedCaptionsBottomMargin != -1) {
-                    intent.putExtra(Constants.IP_CLOSEDCAPTIONSBOTTOMMARGIN, closedCaptionsBottomMargin);
-                }
-                if (sAdUrlOverride != null) {
-                    intent.putExtra(Constants.IP_ADSURLOVERRIDE, sAdUrlOverride);
-                }
-                if (adTagParams.size() > 0) {
-                    intent.putExtra(Constants.IP_ADTAGPARAMS, adTagParams);
-                }
-                OoyalaPlayerPlugin.this.cordova.getActivity().startActivity(intent);
-
-                return true;
-            } else if (Constants.ACTION_GET_METADATA.equals(action) ||
-                    Constants.ACTION_GET_EMBEDCODE.equals(action) ||
-                    Constants.ACTION_GET_AUTHTOKEN.equals(action) ||
-                    Constants.ACTION_GET_CUSTOMDRMDATA.equals(action) ||
-                    Constants.ACTION_GET_STATE.equals(action) ||
-                    Constants.ACTION_PAUSE.equals(action) ||
-                    Constants.ACTION_SUSPEND.equals(action) ||
-                    Constants.ACTION_RESUME.equals(action) ||
-                    Constants.ACTION_ISFULLSCREEN.equals(action) ||
-                    Constants.ACTION_GET_TOPBAROFFSET.equals(action) ||
-                    Constants.ACTION_GET_PLAYHEADTIME.equals(action) ||
-                    Constants.ACTION_SEEKABLE.equals(action) ||
-                    Constants.ACTION_GET_ACTIONATEND.equals(action) ||
-                    Constants.ACTION_GET_CLOSEDCAPTIONSLANGUAGE.equals(action) ||
-                    Constants.ACTION_GET_AVAILABLECLOSEDCAPTIONSLANGUAGES.equals(action) ||
-                    Constants.ACTION_GET_BITRATE.equals(action) ||
-                    Constants.ACTION_ISPLAYING.equals(action) ||
-                    Constants.ACTION_ISADPLAYING.equals(action) ||
-                    Constants.ACTION_GET_DURATION.equals(action) ||
-                    Constants.ACTION_GET_BUFFER_PERCENTAGE.equals(action) ||
-                    Constants.ACTION_GET_PLAYHEAD_PERCENTAGE.equals(action) ||
-                    Constants.ACTION_RESETADS.equals(action) ||
-                    Constants.ACTION_SKIPAD.equals(action) ||
-                    Constants.ACTION_ISSHOWINGAD.equals(action) ||
-                    Constants.ACTION_GET_SEEKSTYLE.equals(action) ||
-                    Constants.ACTION_GET_CUEPOINTSINMILLISECONDS.equals(action) ||
-                    Constants.ACTION_GET_CUEPOINTSINPERCENTAGE.equals(action)) {
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    this.cordova.getActivity().sendBroadcast(intent);
-                } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                    if (player != null) {
+                        cbc_setCustomAnalyticsTags = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.setCustomAnalyticsTags(m_aCustomAnalyticsTags);
+                                cbc_setCustomAnalyticsTags.success("[setCustomAnalyticsTags] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setCustomAnalyticsTags] failed : player is not created");
+                    }
                 }
 
                 return true;
-            } else if (Constants.ACTION_SET_ADURLOVERRIDE.equals(action)) {
+            } else if (Constants.ACTION_GET_METADATA.equals(action)) {
+                if (player != null) {
+                    cbc_getMetadata = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            JSONObject metadata = player.getMetadata();
+                            cbc_getMetadata.success(metadata);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getMetadata] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_SEEKABLE.equals(action)) {
+                if (player != null) {
+                    cbc_seekable = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean bRet = player.seekable();
+                            cbc_seekable.success(bRet ? "true" : "false");
+                        }
+                    });
+                } else {
+                    callbackContext.error("[seekable] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_SET_SEEKABLE.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setSeekable] failed : param is missing");
+                } else {
+                    final boolean bFlag = args.getBoolean(0);
+                    if (player != null) {
+                        cbc_setSeekable = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.setSeekable(bFlag);
+                                cbc_setSeekable.success("[setSeekable] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setSeekable] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_SET_ADS_SEEKABLE.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setAdsSeekable] failed : param is missing");
+                } else {
+                    final boolean bFlag = args.getBoolean(0);
+                    if (player != null) {
+                        cbc_setAdsSeekable = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.setAdsSeekable(bFlag);
+                                cbc_setAdsSeekable.success("[setAdsSeekable] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setAdsSeekable] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_SEEKSTYLE.equals(action)) {
+                if (player != null) {
+                    cbc_getSeekStyle = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            OoyalaPlayer.SeekStyle seekStyle = player.getSeekStyle();
+                            cbc_getSeekStyle.success(seekStyle.ordinal());
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getSeekStyle] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_CLOSEDCAPTIONSLANGUAGE.equals(action)) {
+                if (player != null) {
+                    cbc_getClosedCaptionsLanguage = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String sLang = player.getClosedCaptionsLanguage();
+                            cbc_getClosedCaptionsLanguage.success(sLang);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getClosedCaptionsLanguage] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_ACTIONATEND.equals(action)) {
+                if (player != null) {
+                    cbc_getActionAtEnd = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            OoyalaPlayer.ActionAtEnd actionAtEnd = player.getActionAtEnd();
+                            cbc_getActionAtEnd.success(actionAtEnd.ordinal());
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getActionAtEnd] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_SET_ACTIONATEND.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setActionAtEnd] failed : param is missing");
+                } else {
+                    final String sActionAtEnd = args.getString(0);
+                    if (player != null) {
+                        cbc_setActionAtEnd = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.setActionAtEnd(OoyalaPlayer.ActionAtEnd.valueOf(sActionAtEnd));
+                                cbc_setActionAtEnd.success("[setActionAtEnd] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setActionAtEnd] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_AUTHTOKEN.equals(action)) {
+                if (player != null) {
+                    cbc_getAuthToken = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String sToken = player.getAuthToken();
+                            cbc_getAuthToken.success(sToken);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getAuthToken] failed : player is not created");
+                }
+
+                return true;
+            }
+
+            // Android only functions
+            else if (Constants.ACTION_GET_EMBEDCODE.equals(action)) {
+                if (player != null) {
+                    cbc_getEmbedCode = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String sEmbedCode = player.getEmbedCode();
+                            cbc_getEmbedCode.success(sEmbedCode);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getEmbedCode] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_CUSTOMDRMDATA.equals(action)) {
+                if (player != null) {
+                    cbc_getCustomDRMData = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String DRMData = player.getCustomDRMData();
+                            cbc_getCustomDRMData.success(DRMData);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getCustomDRMData] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_SET_CUSTOMDRMDATA.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setCustomDRMData] failed : DRM data is missing");
+                } else {
+                    final String sDRMData = args.getString(0);
+                    if (player != null) {
+                        cbc_setCustomDRMData = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.setCustomDRMData(sDRMData);
+                                cbc_setCustomDRMData.success("[setCustomDRMData] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setCustomDRMData] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_SUSPEND.equals(action)) {
+                if (player != null) {
+                    cbc_suspend = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            player.suspend();
+                            cbc_suspend.success("[suspend] success");
+                        }
+                    });
+                } else {
+                    callbackContext.error("[suspend] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_RESUME.equals(action)) {
+                if (player != null) {
+                    cbc_resume = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            player.resume();
+                            cbc_resume.success("[resume] success");
+                        }
+                    });
+                } else {
+                    callbackContext.error("[resume] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_ISFULLSCREEN.equals(action)) {
+                if (player != null) {
+                    cbc_isFullscreen = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean bFullScreen = player.isFullscreen();
+                            cbc_isFullscreen.success(bFullScreen ? "true" : "false");
+                        }
+                    });
+                } else {
+                    callbackContext.error("[isFullscreen] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_SET_FULLSCREEN.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setFullscreen] failed : param is missing");
+                } else {
+                    final Boolean bFlag = args.getBoolean(0);
+                    if (player != null) {
+                        cbc_setFullscreen = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.setFullscreen(bFlag);
+                                cbc_setFullscreen.success("[setFullscreen] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[setFullscreen] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_ISADPLAYING.equals(action)) {
+                if (player != null) {
+                    cbc_isAdPlaying = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean bRet = player.isAdPlaying();
+                            cbc_isAdPlaying.success(bRet ? "true" : "false");
+                        }
+                    });
+                } else {
+                    callbackContext.error("[isAdPlaying] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_SEEKTOPERCENT.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[seekToPercent] failed : embed code is missing");
+                } else {
+                    final int percent = args.getInt(0);
+                    if (player != null) {
+                        cbc_seekToPercent = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.seekToPercent(percent);
+                                cbc_seekToPercent.success("[seekToPercent] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[seekToPercent] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_BUFFER_PERCENTAGE.equals(action)) {
+                if (player != null) {
+                    cbc_getBufferPercentage = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int percentage = player.getBufferPercentage();
+                            cbc_getBufferPercentage.success(percentage);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getBufferPercentage] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_PLAYHEAD_PERCENTAGE.equals(action)) {
+                if (player != null) {
+                    cbc_getPlayheadPercentage = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int percentage = player.getPlayheadPercentage();
+                            cbc_getPlayheadPercentage.success(percentage);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getPlayheadPercentage] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_DISPLAYCLOSEDCAPTIONTEXT.equals(action)) {
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[displayClosedCaptionText] failed : embed code is missing");
+                } else {
+                    final String sCaptionText = args.getString(0);
+                    if (player != null) {
+                        cbc_displayClosedCaptionText = callbackContext;
+                        cordovaActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                player.displayClosedCaptionText(sCaptionText);
+                                cbc_displayClosedCaptionText.success("[displayClosedCaptionText] success");
+                            }
+                        });
+                    } else {
+                        callbackContext.error("[displayClosedCaptionText] failed : player is not created");
+                    }
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_CUEPOINTSINMILLISECONDS.equals(action)) {
+                if (player != null) {
+                    cbc_getCuePointsInMilliSeconds = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Set<Integer> points = player.getCuePointsInMilliSeconds();
+                            JSONArray jsonArray = new JSONArray();
+                            for (Integer point : points) jsonArray.put(point);
+                            cbc_getCuePointsInMilliSeconds.success(jsonArray);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getCuePointsInMilliSeconds] failed : player is not created");
+                }
+
+                return true;
+            } else if (Constants.ACTION_GET_CUEPOINTSINPERCENTAGE.equals(action)) {
+                if (player != null) {
+                    cbc_getCuePointsInPercentage = callbackContext;
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Set<Integer> points = player.getCuePointsInPercentage();
+                            JSONArray jsonArray = new JSONArray();
+                            for (Integer point : points) jsonArray.put(point);
+                            cbc_getCuePointsInPercentage.success(jsonArray);
+                        }
+                    });
+                } else {
+                    callbackContext.error("[getCuePointsInPercentage] failed : player is not created");
+                }
+
+                return true;
+            }
+
+            // IMA manager functions
+            /*
+            else if (Constants.ACTION_SET_ADURLOVERRIDE.equals(action)) {
                 sAdUrlOverride = args.getString(0);
 
                 if (CordovaApp.bPlayerActivityRunning) {
@@ -491,6 +1080,7 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
 
                 return true;
             }
+            */
 
             return false;
         } catch(Exception e) {
@@ -552,4 +1142,117 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
             }
         }
     }
+
+    private void sendCallbackEvent(JSONObject jsonObject) {
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
+        pluginResult.setKeepCallback(true);
+        msgBusEventCallback.sendPluginResult(pluginResult);
+    }
+
+    private Observer playerObserver = new Observer() {
+        @Override
+        public void update(Observable observable, Object o) {
+            JSONObject jsonObject = null;
+
+            if (o.equals(OoyalaPlayer.TIME_CHANGED_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.STATE_CHANGED_NOTIFICATION)) {
+                OoyalaPlayer.State state = player.getState();
+                if (state == OoyalaPlayer.State.INIT) {
+
+                } else if (state == OoyalaPlayer.State.LOADING) {
+
+                } else if (state == OoyalaPlayer.State.READY) {
+                    jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(Constants.IP_EVENT, Constants.PLAYBACK_READY);
+                        jsonObject.put(Constants.IP_PARAMS, null);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (state == OoyalaPlayer.State.PLAYING) {
+                    jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(Constants.IP_EVENT, Constants.PLAYING);
+                        jsonObject.put(Constants.IP_PARAMS, null);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (state == OoyalaPlayer.State.PAUSED) {
+                    jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(Constants.IP_EVENT, Constants.PAUSED);
+                        jsonObject.put(Constants.IP_PARAMS, null);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (state == OoyalaPlayer.State.COMPLETED) {
+                    jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(Constants.IP_EVENT, Constants.PLAYED);
+                        jsonObject.put(Constants.IP_PARAMS, null);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (state == OoyalaPlayer.State.SUSPENDED) {
+
+                } else if (state == OoyalaPlayer.State.ERROR) {
+                    jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(Constants.IP_EVENT, Constants.PLAY_FAILED);
+                        jsonObject.put(Constants.IP_PARAMS, null);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            } else if (o.equals(OoyalaPlayer.BUFFER_CHANGED_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.CONTENT_TREE_READY_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.AUTHORIZATION_READY_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.ERROR_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.PLAY_STARTED_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION)) {
+                jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(Constants.IP_EVENT, Constants.SEEKED);
+                    jsonObject.put(Constants.IP_PARAMS, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else if (o.equals(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.AD_STARTED_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.AD_COMPLETED_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.AD_SKIPPED_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.AD_ERROR_NOTIFICATION)) {
+
+            } else if (o.equals(OoyalaPlayer.METADATA_READY_NOTIFICATION)) {
+                // TODO pass param together
+                jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(Constants.IP_EVENT, Constants.METADATA_FETCHED);
+                    jsonObject.put(Constants.IP_PARAMS, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (jsonObject != null) sendCallbackEvent(jsonObject);
+        }
+    };
 }

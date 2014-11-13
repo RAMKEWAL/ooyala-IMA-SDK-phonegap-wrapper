@@ -17,6 +17,8 @@
  * under the License.
  */
 
+var player;
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -36,7 +38,6 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
 
-        // For testing
         var pcode = 'cf6121d0b92d4760917dae9b93ae92f1';
         var embedCode = 'h1aG5kcTrQz1rq8L2Pw6qF0Zn9zhmnAk';
         var embedCodes = ['h1aG5kcTrQz1rq8L2Pw6qF0Zn9zhmnAk'];
@@ -49,83 +50,41 @@ var app = {
         // Create ooyala player
         player = create_player(pcode, domain);
 
-        // Set embedcodes
-        player.setEmbedCode(embedCode,
-            function(msg) {
-                console.log("success : " + msg);
-            },
-            function(msg) {
-                console.log("failure : " + msg);
-            }
-        );
-        //player.setEmbedCodes(embedCodes, null, null);
-        //player.setEmbedCodeWithAdSetCode(embedCode, adsetCode, null, null);
-        //player.setEmbedCodesWithAdSetCode(embedCodes, adsetCode, null, null);
-
-        // Set fullscreen
-        player.setFullscreen(true, null, null);
-
-        // Set external IDs .. Please change externalId(s) values to actual ones
-        //player.setExternalId(externalId, null, null);
-        //player.setExternalIds(externalIds, null, null);
-
-        // Set custom analytics tags
-        player.setCustomAnalyticsTags(customAnalyticsTags, null, null);
-
-        // Set custom DRM Data
-        player.setCustomDRMData('xxx', null, null);
-
-        // Set closed captions lang
-        player.setClosedCaptionsLanguage('eng', null, null);
-
-        // Set ads seekable
-        player.setAdsSeekable(true, null, null);
-
-        // Set video seekable
-        player.setSeekable(true, null, null);
-
-        // Set playhead time
-        //player.setPlayheadTime(20 * 1000);
-
-        // Set action at end
-        player.setActionAtEnd(ActionAtEnd.PAUSE, null, null);
-
-        // Set closed captions presentation style
-        //player.setClosedCaptionsPresentationStyle(OOClosedCaptionPresentation.OOClosedCaptionPopOn, null, null);
-
-        // Set closed captions bottom margin
-        //player.setClosedCaptionsBottomMargin(0, null, null);
-
-        // Set ad url override
-        //var url = "http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/7521029/pb_preroll_ad&ciu_szs&impl=s&cmsid=949&vid=FjbGRjbzp0DV_5-NtXBVo5Rgp3Sj0R5C&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&description_url=[description_url]&correlator=[timestamp]";
-        //player.setAdUrlOverride(url, null, null);
-
-        // Set adTagParams
-        //var adTagParams = {"A1" : "B1", "A2" : "B2", "A3" : "B3"};
-        //player.setAdTagParameters(adTagParams, null, null);
-
-        // Play video
-        player.play(null, null);
-        //player.playWithInitialTime(3 * 1000, null, null);
-
         // LISTEN TO MESSAGE BUS EVENT
+        player.mb.subscribe(EVENTS.PLAYER_CREATED, 'cordova-app',
+                    function(result) {
+                        if (result) {
+                            console.log("---PLAYER IS CREATED SUCCESSFULLY---");
+
+                            // Set embed code
+                            player.setEmbedCodes(embedCodes, app.successHandler, app.failureHandler);
+
+                            // Play video
+                            player.play(app.successHandler, app.failureHandler);
+                        } else {
+                            console.log("---PLAYER IS NOT CREATED---")
+                        }
+                    }
+                );
+
+        // PAUSED event callback
         player.mb.subscribe(EVENTS.PAUSED, 'cordova-app',
             function(params) {
-                console.log("player is paused.");
-                player.resume(null, null);
-                player.setFullscreen(true, null, null);
+                console.log("---PLAYER IS PAUSED---");
             }
         );
 
+        // PLAYING event callback
         player.mb.subscribe(EVENTS.PLAYING, 'cordova-app',
             function(params) {
-                console.log("player is playing");
+                console.log("---PLAYER IS PLAYING---");
             }
         );
 
+        // SEEKED event callback
         player.mb.subscribe(EVENTS.SEEKED, 'cordova-app',
             function(params) {
-                console.log("player is seeked");
+                console.log("---PLAYER IS SEEKED---");
             }
         );
     },
@@ -140,6 +99,14 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+    },
+
+    successHandler: function(result) {
+        console.log(result);
+    },
+
+    failureHandler: function(error) {
+        console.log(error)
     }
 };
 
