@@ -1,4 +1,4 @@
-package com.dong.ooyala;
+package com.fubotv.cordova.ooyalaIMA;
 
 /**
  * Created with IntelliJ IDEA.

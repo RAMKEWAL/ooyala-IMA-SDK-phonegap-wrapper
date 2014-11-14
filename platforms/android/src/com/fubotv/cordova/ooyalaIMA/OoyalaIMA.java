@@ -1,4 +1,4 @@
-package com.fubotv.cordova.OoyalaIMAPlugin;
+package com.fubotv.cordova.ooyalaIMA;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -25,7 +25,7 @@ import java.util.*;
  * Time: 10:22 AM
  * To change this template use File | Settings | File Templates.
  */
-public class OoyalaIMAPlugin extends CordovaPlugin {
+public class OoyalaIMA extends CordovaPlugin {
     // Member variables
     private ArrayList<String> m_aEmbedCodes = new ArrayList<String>();
     private ArrayList<String> m_aExternalIDs = new ArrayList<String>();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.fubotv.cordova.OoyalaIMAPlugin"
+    id="com.fubotv.cordova.ooyalaIMAPlugin"
     version="1.0.0">
 
     <name>OoyalaIMA Plugin</name>
@@ -18,7 +18,7 @@
 
     <license>MIT</license>
 
-    <js-module src="www/ooyala_player.js" name="OoyalaIMAPlugin">
+    <js-module src="www/ooyala_player.js" name="ooyalaIMAPlugin">
         <clobbers target="window.ooyalaIMA" />
     </js-module>
 
@@ -26,8 +26,8 @@
     <platform name="android">
 
     <config-file target="res/xml/config.xml" parent="/*">
-		<feature name="OoyalaIMAPlugin" >
-			<param name="android-package" value="com.fubotv.cordova.OoyalaIMAPlugin.OoyalaIMAPlugin"/>
+		<feature name="OoyalaIMA" >
+			<param name="android-package" value="com.fubotv.cordova.ooyalaIMA.OoyalaIMA"/>
 		</feature>
     </config-file>
     
@@ -41,10 +41,10 @@
 
 	<source-file src="platforms/android/res/layout/player.xml" target-dir="res/layout" />
 
-    <source-file src="platforms/android/src/com/fubotv/cordova/OoyalaIMAPlugin/OoyalaIMAPlugin.java" 
-            target-dir="src/com/fubotv/cordova/OoyalaIMAPlugin"/>
-	<source-file src="platforms/android/src/com/fubotv/cordova/OoyalaIMAPlugin/Constants.java" 
-            target-dir="src/com/fubotv/cordova/OoyalaIMAPlugin"/>
+    <source-file src="platforms/android/src/com/fubotv/cordova/ooyalaIMA/OoyalaIMA.java" 
+            target-dir="src/com/fubotv/cordova/ooyalaIMA"/>
+	<source-file src="platforms/android/src/com/fubotv/cordova/ooyalaIMA/Constants.java" 
+            target-dir="src/com/fubotv/cordova/ooyalaIMA"/>
     </platform>
     
     <!-- ios -->
