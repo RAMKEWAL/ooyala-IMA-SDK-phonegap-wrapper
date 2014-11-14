@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.fubotv.cordova.OoyalaIMAPlugin"
+    version="1.0.0">
+
+    <name>OoyalaIMA Plugin</name>
+    
+    <description>cordova plugin for Ooyala IMA</description>
+    
+    <author>DongKai.Li - 1279182797@qq.com</author>
+    
+    <keywords>ooyala, cordova</keywords>
+	
+	<engines>
+	    <engine name="cordova" version=">=3.0.0" />
+	</engines>
+
+    <license>MIT</license>
+
+    <js-module src="www/ooyala_player.js" name="OoyalaIMAPlugin">
+        <clobbers target="window.ooyalaIMA" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+
+    <config-file target="res/xml/config.xml" parent="/*">
+		<feature name="OoyalaPlayerPlugin" >
+			<param name="android-package" value="com.fubotv.cordova.OoyalaIMAPlugin"/>
+		</feature>
+    </config-file>
+    
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+    	<uses-permission android:name="android.permission.INTERNET" />
+    </config-file>   
+
+    <source-file src="platforms/android/src/com/fubotv/cordova/OoyalaIMAPlugin/OoyalaIMAPlugin.java" 
+            target-dir="src/com/fubotv/cordova/OoyalaIMAPlugin"/>
+	<source-file src="platforms/android/src/com/fubotv/cordova/OoyalaIMAPlugin/Constants.java" 
+            target-dir="src/com/fubotv/cordova/OoyalaIMAPlugin"/>
+    </platform>
+    
+    <!-- ios -->
+    
+</plugin>
