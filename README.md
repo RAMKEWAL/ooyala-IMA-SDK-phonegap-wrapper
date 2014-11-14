@@ -26,13 +26,8 @@ android cordova plugin for Ooyala IMA SDK
         
         // Play video
         player.play(null, null);
-        
-    } else {
-    
+      } else {
         console.log("---PLAYER IS NOT CREATED---");
-        
       }
-      
     }
-    
   );
