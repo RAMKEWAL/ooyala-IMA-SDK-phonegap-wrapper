@@ -39,7 +39,7 @@
 	<source-file src="platforms/android/libs/OoyalaIMASDK.jar" target-dir="libs" />
 	<source-file src="platforms/android/libs/OoyalaSDK.jar" target-dir="libs" />
 
-	<source-file src="platforms/android/res/layout/player.xml" target-dir="res/layout/player.xml" />
+	<source-file src="platforms/android/res/layout/player.xml" target-dir="res/layout" />
 
     <source-file src="platforms/android/src/com/fubotv/cordova/OoyalaIMAPlugin/OoyalaIMAPlugin.java" 
             target-dir="src/com/fubotv/cordova/OoyalaIMAPlugin"/>

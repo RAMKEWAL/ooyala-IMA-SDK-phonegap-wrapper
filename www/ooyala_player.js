@@ -173,7 +173,7 @@ var MessageBus = {
 
 var OoyalaIMA = function () {};
 
-OoyalaIMA.prototype.create_player = function create_player(pcode, domain) {
+OoyalaIMA.prototype.createPlayer = function (pcode, domain) {
     ooyala_player.mb = MessageBus;
 
     cordova.exec(MessageBus.handler, null, PLAYER_PLUGIN,
