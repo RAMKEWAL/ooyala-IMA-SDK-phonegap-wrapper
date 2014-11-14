@@ -1,6 +1,6 @@
 
 // Constants
-const PLAYER_PLUGIN = "OoyalaIMAPlugin";
+const PLAYER_PLUGIN = "OoyalaIMA";
 const ACTION_SET_MSGBUSEVENTHANDLER = "setMessageBusEventHandler";
 const ACTION_CREATE_PLAYER = "createPlayer";
 
