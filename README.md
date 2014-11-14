@@ -35,4 +35,4 @@ android cordova plugin for Ooyala IMA SDK
   );
 ```
 
-- For more information, please refer 'ReadMe.pdf'. You can find more functions and events which you can listen to there.
+- For more information, please refer 'Reference.pdf'. You can find more functions and events which you can listen to there.
