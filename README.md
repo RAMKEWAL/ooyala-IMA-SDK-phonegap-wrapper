@@ -2,6 +2,9 @@ ooyala-IMA-SDK-phonegap-wrapper
 ===============================
 android cordova plugin for Ooyala IMA SDK
 
+- Install
+- android
+- 
 - Create player object with pcode and domain
 ```
   // Create player
