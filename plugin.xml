@@ -27,7 +27,7 @@
 
     <config-file target="res/xml/config.xml" parent="/*">
 		<feature name="OoyalaIMAPlugin" >
-			<param name="android-package" value="com.fubotv.cordova.OoyalaIMAPlugin"/>
+			<param name="android-package" value="com.fubotv.cordova.OoyalaIMAPlugin.OoyalaIMAPlugin"/>
 		</feature>
     </config-file>
     
