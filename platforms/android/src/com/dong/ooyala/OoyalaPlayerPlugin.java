@@ -8,10 +8,7 @@ import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import com.ooyala.android.ClosedCaptionsStyle;
-import com.ooyala.android.OoyalaPlayer;
-import com.ooyala.android.OoyalaPlayerLayout;
-import com.ooyala.android.PlayerDomain;
+import com.ooyala.android.*;
 import com.ooyala.android.ui.OptimizedOoyalaPlayerLayoutController;
 import org.apache.cordova.*;
 import org.json.JSONArray;
@@ -29,9 +26,11 @@ import java.util.*;
  */
 public class OoyalaPlayerPlugin extends CordovaPlugin {
     // Member variables
-    ArrayList<String> m_aEmbedCodes = new ArrayList<String>();
-    ArrayList<String> m_aExternalIDs = new ArrayList<String>();
-    ArrayList<String> m_aCustomAnalyticsTags = new ArrayList<String>();
+    private ArrayList<String> m_aEmbedCodes = new ArrayList<String>();
+    private ArrayList<String> m_aExternalIDs = new ArrayList<String>();
+    private ArrayList<String> m_aCustomAnalyticsTags = new ArrayList<String>();
+
+    private boolean m_bIsFullscreen = false;
 
     // Callback contexts
     private CallbackContext cbc_setEmbedCode;
@@ -86,7 +85,6 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
 
     private CallbackContext msgBusEventCallback = null;
     private HashMap<String, CallbackContext>  actionCallbacks;
-    private PlayerActivityEventReceiver receiver = null;
 
     // UI
     private Activity cordovaActivity = null;
@@ -102,17 +100,10 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
 
         // Create action callbacks
         actionCallbacks = new HashMap<String, CallbackContext>();
-
-        // Register receiver for events from player activity
-        IntentFilter filter = new IntentFilter(PlayerActivityEventReceiver.ACTION);
-        receiver = new PlayerActivityEventReceiver();
-        cordova.getActivity().registerReceiver(receiver, filter);
     }
 
     @Override
     public void onDestroy() {
-        cordova.getActivity().unregisterReceiver(receiver);
-
         super.onDestroy();
     }
 
@@ -669,7 +660,11 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
                         @Override
                         public void run() {
                             JSONObject metadata = player.getMetadata();
-                            cbc_getMetadata.success(metadata);
+                            if (metadata != null) {
+                                cbc_getMetadata.success(metadata);
+                            } else {
+                                cbc_getMetadata.error("[getMetadata] failed : return null");
+                            }
                         }
                     });
                 } else {
@@ -1090,59 +1085,6 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
         }
     }
 
-    public class PlayerActivityEventReceiver extends BroadcastReceiver {
-
-        public static final String ACTION = "PLAYER_EVENT_RECEIVER";
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Message bus event handling
-            if (intent.hasExtra(Constants.IP_EVENT)) {
-                String sEvent = intent.getStringExtra(Constants.IP_EVENT);
-                String sParams = null;
-
-                if (intent.hasExtra(Constants.IP_PARAMS)) {
-                    sParams = intent.getStringExtra(Constants.IP_PARAMS);
-                }
-
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(Constants.IP_EVENT, sEvent);
-                    jsonObject.put(Constants.IP_PARAMS, sParams);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
-                pluginResult.setKeepCallback(true);
-                msgBusEventCallback.sendPluginResult(pluginResult);
-            }
-
-            // Action return value handling
-            if (intent.hasExtra(Constants.IP_ACTION)) {
-                String action = intent.getStringExtra(Constants.IP_ACTION);
-                boolean bSuccess = intent.getBooleanExtra(Constants.IP_ACTIONSUCCESS, false);
-                CallbackContext callbackContext = actionCallbacks.get(action);
-
-                // If action call failed, call failure handler callback
-                if (!bSuccess) {
-                    String errMsg = "error";
-                    if (intent.hasExtra(Constants.IP_ERRMSG)) {
-                        errMsg = intent.getStringExtra(Constants.IP_ERRMSG);
-                    }
-
-                    callbackContext.error(errMsg);
-                } else {
-                    if (action.equals(Constants.ACTION_SET_EMBEDCODE)) {
-                        boolean bRet = intent.getBooleanExtra(Constants.IP_RET_BOOL, false);
-                        if (bRet) callbackContext.success("true");
-                        else callbackContext.success("false");
-                    }
-                }
-            }
-        }
-    }
-
     private void sendCallbackEvent(JSONObject jsonObject) {
         PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
         pluginResult.setKeepCallback(true);
@@ -1152,6 +1094,7 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
     private Observer playerObserver = new Observer() {
         @Override
         public void update(Observable observable, Object o) {
+            OoyalaPlayer player = (OoyalaPlayer) observable;
             JSONObject jsonObject = null;
 
             if (o.equals(OoyalaPlayer.TIME_CHANGED_NOTIFICATION)) {
@@ -1202,26 +1145,27 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
 
                 } else if (state == OoyalaPlayer.State.ERROR) {
                     jsonObject = new JSONObject();
+                    String sErrMsg = player.getError().getMessage();
                     try {
-                        jsonObject.put(Constants.IP_EVENT, Constants.PLAY_FAILED);
-                        jsonObject.put(Constants.IP_PARAMS, null);
+                        jsonObject.put(Constants.IP_EVENT, Constants.ERROR);
+                        jsonObject.put(Constants.IP_PARAMS, sErrMsg);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }
             } else if (o.equals(OoyalaPlayer.BUFFER_CHANGED_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.CONTENT_TREE_READY_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.AUTHORIZATION_READY_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.ERROR_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.PLAY_STARTED_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION)) {
                 jsonObject = new JSONObject();
                 try {
@@ -1232,21 +1176,36 @@ public class OoyalaPlayerPlugin extends CordovaPlugin {
                 }
 
             } else if (o.equals(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.AD_STARTED_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.AD_COMPLETED_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.AD_SKIPPED_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.AD_ERROR_NOTIFICATION)) {
-
+                jsonObject = null;
             } else if (o.equals(OoyalaPlayer.METADATA_READY_NOTIFICATION)) {
-                // TODO pass param together
+
                 jsonObject = new JSONObject();
                 try {
                     jsonObject.put(Constants.IP_EVENT, Constants.METADATA_FETCHED);
                     jsonObject.put(Constants.IP_PARAMS, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Check if screen size is changed
+            boolean bFullScreen = player.isFullscreen();
+            if (m_bIsFullscreen != bFullScreen) {
+                m_bIsFullscreen = bFullScreen;
+
+                // Publish FULLSCREEN_CHANGED event
+                jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(Constants.IP_EVENT, Constants.FULLSCREEN_CHANGED);
+                    jsonObject.put(Constants.IP_PARAMS, bFullScreen);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

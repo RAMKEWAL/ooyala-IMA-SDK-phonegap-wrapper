@@ -38,8 +38,10 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
 
-        var pcode = 'cf6121d0b92d4760917dae9b93ae92f1';
-        var embedCode = 'h1aG5kcTrQz1rq8L2Pw6qF0Zn9zhmnAk';
+        //var pcode = 'cf6121d0b92d4760917dae9b93ae92f1';
+        var pcode = 'R2d3I6s06RyB712DN0_2GsQS-R-Y';
+        //var embedCode = 'h1aG5kcTrQz1rq8L2Pw6qF0Zn9zhmnAk';
+        var embedCode = 'h5OWFoYTrG4YIPdrDKrIz5-VhobsuT-M';
         var embedCodes = ['h1aG5kcTrQz1rq8L2Pw6qF0Zn9zhmnAk'];
         var adsetCode = 'd01204eea15f466c92e890d14c7df8b6';
         var domain = 'http://www.ooyala.com';
@@ -57,10 +59,17 @@ var app = {
                             console.log("---PLAYER IS CREATED SUCCESSFULLY---");
 
                             // Set embed code
-                            player.setEmbedCodes(embedCodes, app.successHandler, app.failureHandler);
+                            player.setEmbedCode(embedCode, app.successHandler, app.failureHandler);
 
                             // Play video
                             player.play(app.successHandler, app.failureHandler);
+
+                            // Set full screen
+                            player.setFullscreen(true, app.successHandler, app.failureHandler);
+
+                            // Get metadata
+                            player.getMetadata(app.successHandler, app.failureHandler);
+
                         } else {
                             console.log("---PLAYER IS NOT CREATED---")
                         }
@@ -85,6 +94,30 @@ var app = {
         player.mb.subscribe(EVENTS.SEEKED, 'cordova-app',
             function(params) {
                 console.log("---PLAYER IS SEEKED---");
+            }
+        );
+
+        // SEEKED event callback
+        player.mb.subscribe(EVENTS.METADATA_FETCHED, 'cordova-app',
+            function(params) {
+                console.log("---META DATA IS FETCHED---");
+            }
+        );
+
+        // FULLSCREEN_CHANGED event callback
+                player.mb.subscribe(EVENTS.FULLSCREEN_CHANGED, 'cordova-app',
+                    function(params) {
+                        console.log("---FULLSCREEN CHANGED---");
+                        alert(params);
+                        console.log(params);
+                    }
+                );
+
+        // ERROR event callback
+        player.mb.subscribe(EVENTS.ERROR, 'cordova-app',
+            function(params) {
+                console.log("---PLAYER ERROR---");
+                console.log(params);
             }
         );
     },
