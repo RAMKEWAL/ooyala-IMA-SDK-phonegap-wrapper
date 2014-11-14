@@ -3,9 +3,11 @@ ooyala-IMA-SDK-phonegap-wrapper
 android cordova plugin for Ooyala IMA SDK
 
 - Create player object with pcode and domain
+
   player = window.ooyalaIMA.createPlayer('cf6121d0b92d4760917dae9b93ae92f1', 'http://www.ooyala.com');
 
 - Listen to 'PLAYER_CREATED' event. If player is created, set embed code, full screen and then play video.
+- 
   player.mb.subscribe('PLAYER_CREATED', 'cordova-app',
     function(result) {
       if (result) {
