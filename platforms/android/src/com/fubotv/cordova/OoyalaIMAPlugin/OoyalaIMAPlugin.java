@@ -1,4 +1,4 @@
-package com.dong.ooyala;
+package com.fubotv.cordova.OoyalaIMAPlugin;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -139,7 +139,7 @@ public class OoyalaIMAPlugin extends CordovaPlugin {
                         }
                         if (playerParentLayout != null) activityLayout.removeView(playerParentLayout);
 
-                        playerParentLayout = (FrameLayout) layoutInflater.inflate(com.dong.ooyala.R.layout.player, null);
+                        playerParentLayout = (FrameLayout) layoutInflater.inflate(R.layout.player, null);
                         playerParentLayout.setVisibility(View.INVISIBLE);
                         activityLayout.addView(playerParentLayout);
                         playerLayout = (OoyalaPlayerLayout) playerParentLayout.findViewById(R.id.ooyalaPlayer);

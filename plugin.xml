@@ -33,7 +33,13 @@
     
     <config-file target="AndroidManifest.xml" parent="/manifest">
     	<uses-permission android:name="android.permission.INTERNET" />
-    </config-file>   
+    </config-file>
+	
+	<source-file src="platforms/android/libs/ima-android-sdk-beta8.jar" target-dir="libs" />
+	<source-file src="platforms/android/libs/OoyalaIMASDK.jar" target-dir="libs" />
+	<source-file src="platforms/android/libs/OoyalaSDK.jar" target-dir="libs" />
+
+	<source-file src="platforms/android/res/layout/player.xml" target-dir="res/layout/player.xml" />
 
     <source-file src="platforms/android/src/com/fubotv/cordova/OoyalaIMAPlugin/OoyalaIMAPlugin.java" 
             target-dir="src/com/fubotv/cordova/OoyalaIMAPlugin"/>
