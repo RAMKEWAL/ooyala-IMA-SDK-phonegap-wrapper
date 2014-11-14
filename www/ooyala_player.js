@@ -1,5 +1,6 @@
+
 // Constants
-const PLAYER_PLUGIN = "OoyalaPlayerPlugin";
+const PLAYER_PLUGIN = "OoyalaIMAPlugin";
 const ACTION_SET_MSGBUSEVENTHANDLER = "setMessageBusEventHandler";
 const ACTION_CREATE_PLAYER = "createPlayer";
 
@@ -153,16 +154,6 @@ const OOClosedCaptionPresentation = {
 const DO_PLAY = 0;
 const DO_PAUSE = 1;
 
-function create_player(pcode, domain) {
-    ooyala_player.mb = MessageBus;
-
-    cordova.exec(MessageBus.handler, null, PLAYER_PLUGIN,
-            ACTION_SET_MSGBUSEVENTHANDLER, []);
-    cordova.exec(null, null, PLAYER_PLUGIN, ACTION_CREATE_PLAYER, [{"pcode":pcode, "domain":domain}]);
-
-    return ooyala_player;
-}
-
 var _callbacks = {};
 var MessageBus = {
     handler : function(jsonObj) {
@@ -178,6 +169,18 @@ var MessageBus = {
 
         _callbacks[eventName].push({"subscriber": subscriber, "callback": callback});
     }
+}
+
+var OoyalaIMA = function () {};
+
+OoyalaIMA.prototype.create_player = function create_player(pcode, domain) {
+    ooyala_player.mb = MessageBus;
+
+    cordova.exec(MessageBus.handler, null, PLAYER_PLUGIN,
+            ACTION_SET_MSGBUSEVENTHANDLER, []);
+    cordova.exec(null, null, PLAYER_PLUGIN, ACTION_CREATE_PLAYER, [{"pcode":pcode, "domain":domain}]);
+
+    return ooyala_player;
 }
 
 var ooyala_player = {
@@ -398,3 +401,7 @@ var ooyala_player = {
         cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SET_ADTAGPARAMS, [params]);
     }
 }
+
+// Instantiate LocalNotification
+window.ooyalaIMA = new OoyalaIMA();
+module.exports = ooyalaIMA;
