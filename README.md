@@ -2,7 +2,7 @@ ooyala-IMA-SDK-phonegap-wrapper
 ===============================
 android cordova plugin for Ooyala IMA SDK
 
--Installation
+- Installation
 ```
   cordova plugin add https://github.com/fubotv/ooyala-IMA-SDK-phonegap-wrapper.git
 ```
@@ -34,3 +34,5 @@ android cordova plugin for Ooyala IMA SDK
     }
   );
 ```
+
+- For more information, please refer 'ReadMe.pdf'. You can find more functions and events which you can listen to there.
