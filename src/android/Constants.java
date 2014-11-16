@@ -73,41 +73,18 @@ public class Constants {
     public static final String ACTION_SET_ADTAGPARAMS = "setAdTagParameters";
 
     // Events
-    public static final String authTokenChanged = "authTokenChanged";
-    public static final String ADS_CLICK = "ADS_CLICK";
     public static final String ADS_PLAYED = "ADS_PLAYED";
-    public static final String AD_AUTHORIZATION_FETCHED = "AD_AUTHORIZATION_FETCHED";
-    public static final String AD_CONFIG_READY = "AD_CONFIG_READY";
-    public static final String AUTHORIZATION_FETCHED = "AUTHORIZATION_FETCHED";
-    public static final String BITRATE_CHANGED = "BITRATE_CHANGED";
-    public static final String BUFFERED = "BUFFERED";
-    public static final String BUFFERING = "BUFFERING";
     public static final String CONTENT_TREE_FETCHED = "CONTENT_TREE_FETCHED";
-    public static final String CONTROLS_HIDDEN = "CONTROLS_HIDDEN";
-    public static final String CONTROLS_SHOWN = "CONTROLS_SHOWN";
-    public static final String DESTROY = "DESTROY";
     public static final String DOWNLOADING = "DOWNLOADING";
     public static final String EMBED_CODE_CHANGED = "EMBED_CODE_CHANGED";
     public static final String ERROR = "ERROR";
-    public static final String FIRST_AD_FETCHED = "FIRST_AD_FETCHED";
     public static final String FULLSCREEN_CHANGED = "FULLSCREEN_CHANGED";
     public static final String METADATA_FETCHED = "METADATA_FETCHED";
-    public static final String MIDROLL_PLAY_FAILED = "MIDROLL_PLAY_FAILED";
-    public static final String MIDROLL_STREAM_PLAYED = "MIDROLL_STREAM_PLAYED";
     public static final String PAUSED = "PAUSED";
     public static final String PLAYBACK_READY = "PLAYBACK_READY";
     public static final String PLAYED = "PLAYED";
     public static final String PLAYER_CREATED = "PLAYER_CREATED";
-    public static final String PLAYHEAD_TIME_CHANGED = "PLAYHEAD_TIME_CHANGED";
     public static final String PLAYING = "PLAYING";
     public static final String PLAY_FAILED = "PLAY_FAILED";
-    public static final String PRELOAD_STREAM = "PRELOAD_STREAM";
     public static final String SEEKED = "SEEKED";
-    public static final String SINGLE_AD_PLAYED = "SINGLE_AD_PLAYED";
-    public static final String SIZE_CHANGED = "SIZE_CHANGED";
-    public static final String STREAM_PAUSED = "STREAM_PAUSED";
-    public static final String STREAM_PLAYED = "STREAM_PLAYED";
-    public static final String STREAM_PLAYING = "STREAM_PLAYING";
-    public static final String STREAM_PLAY_FAILED = "STREAM_PLAY_FAILED";
-    public static final String VOLUME_CHANGED = "VOLUME_CHANGED";
 }

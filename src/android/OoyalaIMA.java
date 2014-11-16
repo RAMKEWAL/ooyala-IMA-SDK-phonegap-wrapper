@@ -1,15 +1,10 @@
 package com.fubotv.cordova.ooyalaIMA;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.ooyala.android.*;
-import com.ooyala.android.imasdk.OoyalaIMAManager;
 import com.ooyala.android.ui.OptimizedOoyalaPlayerLayoutController;
 import org.apache.cordova.*;
 import org.json.JSONArray;
@@ -91,7 +86,7 @@ public class OoyalaIMA extends CordovaPlugin {
     private Activity cordovaActivity = null;
     private FrameLayout playerParentLayout = null;
     private OoyalaPlayerLayout playerLayout = null;
-    private OoyalaIMAManager imaManager = null;
+    private CustomOoyalaIMAManager imaManager = null;
     private OoyalaPlayer player = null;
 
 
@@ -148,6 +143,8 @@ public class OoyalaIMA extends CordovaPlugin {
                             OptimizedOoyalaPlayerLayoutController playerLayoutController = new OptimizedOoyalaPlayerLayoutController(playerLayout,
                                     sPcode, new PlayerDomain(sDomain));
                             player = playerLayoutController.getPlayer();
+                            imaManager = new CustomOoyalaIMAManager(player);
+                            imaManager.setAdTagParameters(null);
                             player.addObserver(playerObserver);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -1049,35 +1046,43 @@ public class OoyalaIMA extends CordovaPlugin {
             }
 
             // IMA manager functions
-            /*
             else if (Constants.ACTION_SET_ADURLOVERRIDE.equals(action)) {
-                sAdUrlOverride = args.getString(0);
-
-                if (CordovaApp.bPlayerActivityRunning) {
-                    Intent intent = new Intent(PlayerActivity.PluginCommandReceiver.ACTION);
-                    intent.putExtra(Constants.IP_ACTION, action);
-                    intent.putExtra(Constants.IP_ADSURLOVERRIDE, sAdUrlOverride);
-                    this.cordova.getActivity().sendBroadcast(intent);
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setAdUrlOverride] failed : embed code is missing");
                 } else {
-                    callbackContext.error(MSGERR_NOPLAYERACTIVITY);
+                    final String sUrl = args.getString(0);
+                    if (imaManager != null) {
+                        imaManager.setAdUrlOverride(sUrl);
+                        callbackContext.success("[setAdUrlOverride] success");
+                    } else {
+                        callbackContext.error("[setAdUrlOverride] failed : player is not created");
+                    }
                 }
 
                 return true;
             } else if (Constants.ACTION_SET_ADTAGPARAMS.equals(action)) {
-                if (args.length() > 0) {
-                    JSONObject jsonObject = args.getJSONObject(0);
-                    Iterator<String> iter = jsonObject.keys();
-                    adTagParams.clear();
-                    while(iter.hasNext()){
-                        String key = iter.next();
-                        String val = jsonObject.getString(key);
-                        adTagParams.put(key, val);
+                if (args.length() == 1 && args.getString(0).equals("null")) {
+                    callbackContext.error("[setAdTagParameters] failed : embed code is missing");
+                } else {
+                    final JSONObject jsonObject = args.getJSONObject(0);
+                    if (imaManager != null) {
+                        Iterator keysToCopyIterator = jsonObject.keys();
+                        HashMap<String, String> tagParams = new HashMap<String, String>();
+                        while(keysToCopyIterator.hasNext()) {
+                            String key = (String) keysToCopyIterator.next();
+                            String value = jsonObject.getString(key);
+                            tagParams.put(key, value);
+                        }
+
+                        imaManager.setAdTagParameters(tagParams);
+                        callbackContext.success("[setAdTagParameters] success");
+                    } else {
+                        callbackContext.error("[setAdTagParameters] failed : player is not created");
                     }
                 }
 
                 return true;
             }
-            */
 
             return false;
         } catch(Exception e) {
@@ -1104,8 +1109,14 @@ public class OoyalaIMA extends CordovaPlugin {
             } else if (o.equals(OoyalaPlayer.STATE_CHANGED_NOTIFICATION)) {
                 OoyalaPlayer.State state = player.getState();
                 if (state == OoyalaPlayer.State.INIT) {
-
                 } else if (state == OoyalaPlayer.State.LOADING) {
+                    jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(Constants.IP_EVENT, Constants.DOWNLOADING);
+                        jsonObject.put(Constants.IP_PARAMS, null);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                 } else if (state == OoyalaPlayer.State.READY) {
                     jsonObject = new JSONObject();
@@ -1144,12 +1155,12 @@ public class OoyalaIMA extends CordovaPlugin {
                     }
 
                 } else if (state == OoyalaPlayer.State.SUSPENDED) {
-
+                    jsonObject = null;
                 } else if (state == OoyalaPlayer.State.ERROR) {
                     jsonObject = new JSONObject();
                     String sErrMsg = player.getError().getMessage();
                     try {
-                        jsonObject.put(Constants.IP_EVENT, Constants.ERROR);
+                        jsonObject.put(Constants.IP_EVENT, Constants.PLAY_FAILED);
                         jsonObject.put(Constants.IP_PARAMS, sErrMsg);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1159,11 +1170,24 @@ public class OoyalaIMA extends CordovaPlugin {
             } else if (o.equals(OoyalaPlayer.BUFFER_CHANGED_NOTIFICATION)) {
                 jsonObject = null;
             } else if (o.equals(OoyalaPlayer.CONTENT_TREE_READY_NOTIFICATION)) {
-                jsonObject = null;
+                jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(Constants.IP_EVENT, Constants.CONTENT_TREE_FETCHED);
+                    jsonObject.put(Constants.IP_PARAMS, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             } else if (o.equals(OoyalaPlayer.AUTHORIZATION_READY_NOTIFICATION)) {
-                jsonObject = null;
+
             } else if (o.equals(OoyalaPlayer.ERROR_NOTIFICATION)) {
-                jsonObject = null;
+                jsonObject = new JSONObject();
+                String sErrMsg = player.getError().getMessage();
+                try {
+                    jsonObject.put(Constants.IP_EVENT, Constants.ERROR);
+                    jsonObject.put(Constants.IP_PARAMS, sErrMsg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             } else if (o.equals(OoyalaPlayer.PLAY_STARTED_NOTIFICATION)) {
                 jsonObject = null;
             } else if (o.equals(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION)) {
@@ -1178,21 +1202,35 @@ public class OoyalaIMA extends CordovaPlugin {
                 }
 
             } else if (o.equals(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION)) {
-                jsonObject = null;
+                String embedCode = player.getEmbedCode();
+                jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(Constants.IP_EVENT, Constants.EMBED_CODE_CHANGED);
+                    jsonObject.put(Constants.IP_PARAMS, embedCode);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             } else if (o.equals(OoyalaPlayer.AD_STARTED_NOTIFICATION)) {
                 jsonObject = null;
             } else if (o.equals(OoyalaPlayer.AD_COMPLETED_NOTIFICATION)) {
-                jsonObject = null;
+                jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(Constants.IP_EVENT, Constants.ADS_PLAYED);
+                    jsonObject.put(Constants.IP_PARAMS, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             } else if (o.equals(OoyalaPlayer.AD_SKIPPED_NOTIFICATION)) {
                 jsonObject = null;
             } else if (o.equals(OoyalaPlayer.AD_ERROR_NOTIFICATION)) {
                 jsonObject = null;
             } else if (o.equals(OoyalaPlayer.METADATA_READY_NOTIFICATION)) {
-
+                JSONObject metadata = player.getMetadata();
                 jsonObject = new JSONObject();
                 try {
                     jsonObject.put(Constants.IP_EVENT, Constants.METADATA_FETCHED);
-                    jsonObject.put(Constants.IP_PARAMS, null);
+                    jsonObject.put(Constants.IP_PARAMS, metadata);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
