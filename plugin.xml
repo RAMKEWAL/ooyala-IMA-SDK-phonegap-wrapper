@@ -49,6 +49,8 @@
     
     <!-- ios -->
     <platform name="ios">
+	<framework src="CoreLocation.framework" />
+	<!--
         <framework src="MediaAccessibility.framework" />
         <framework src="AdSupport.framework" />
         <framework src="AudioToolbox.framework" />
@@ -61,8 +63,10 @@
         <framework src="AVFoundation.framework" />
         <framework src="libz.dylib" />
         <framework src="libc++.dylib" />
+	-->
 
         <header-file src="src/ios/Headers/GoogleIMA/IMAAd.h" />
+	<!--
         <header-file src="src/ios/Headers/GoogleIMA/IMAAdDisplayContainer.h" />
         <header-file src="src/ios/Headers/GoogleIMA/IMAAdError.h" />
         <header-file src="src/ios/Headers/GoogleIMA/IMAAdEvent.h" />
@@ -134,6 +138,7 @@
         <header-file src="src/ios/Headers/Ooyala/OOVASTUtils.h" />
         <header-file src="src/ios/Headers/Ooyala/OOVASTWrapperAd.h" />
         <header-file src="src/ios/Headers/Ooyala/OOVideo.h" />
+	-->
     </platform>
     
 </plugin>
