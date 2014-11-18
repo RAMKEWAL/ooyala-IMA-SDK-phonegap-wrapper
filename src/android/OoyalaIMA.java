@@ -3,7 +3,9 @@ package com.fubotv.cordova.ooyalaIMA;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import com.ooyala.android.*;
 import com.ooyala.android.ui.OptimizedOoyalaPlayerLayoutController;
 import org.apache.cordova.*;
@@ -134,10 +136,17 @@ public class OoyalaIMA extends CordovaPlugin {
                         }
                         if (playerParentLayout != null) activityLayout.removeView(playerParentLayout);
 
-                        playerParentLayout = (FrameLayout) layoutInflater.inflate(R.layout.player, null);
+                        playerParentLayout = new FrameLayout(cordovaActivity);
+                        ViewGroup.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                        playerParentLayout.setLayoutParams(layoutParams);
+
+                        layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 450);
+                        playerLayout = new OoyalaPlayerLayout(cordovaActivity);
+                        playerLayout.setLayoutParams(layoutParams);
+                        playerParentLayout.addView(playerLayout);
+
                         playerParentLayout.setVisibility(View.INVISIBLE);
                         activityLayout.addView(playerParentLayout);
-                        playerLayout = (OoyalaPlayerLayout) playerParentLayout.findViewById(R.id.ooyalaPlayer);
                         boolean bCreatedPlayer = true;
                         try {
                             OptimizedOoyalaPlayerLayoutController playerLayoutController = new OptimizedOoyalaPlayerLayoutController(playerLayout,
