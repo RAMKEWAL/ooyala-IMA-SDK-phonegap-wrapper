@@ -152,8 +152,6 @@ public class OoyalaIMA extends CordovaPlugin {
                             OptimizedOoyalaPlayerLayoutController playerLayoutController = new OptimizedOoyalaPlayerLayoutController(playerLayout,
                                     sPcode, new PlayerDomain(sDomain));
                             player = playerLayoutController.getPlayer();
-                            imaManager = new CustomOoyalaIMAManager(player);
-                            imaManager.setAdTagParameters(null);
                             player.addObserver(playerObserver);
                         } catch (Exception e) {
                             e.printStackTrace();
