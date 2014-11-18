@@ -66,79 +66,77 @@
 	-->
 
         <header-file src="src/ios/Headers/GoogleIMA/IMAAd.h" target-dir="Headers/GoogleIMA" />
-	<!--
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAdDisplayContainer.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAdError.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAdEvent.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAdPlaybackInfo.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAdPodInfo.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAdsLoader.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAdsManager.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAdsRenderingSettings.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAdsRequest.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAVPlayerContentPlayhead.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMACompanionAdSlot.h" />
-        <header-file src="src/ios/Headers/GoogleIMA/IMAContentPlayhead.h" />
-        <header-file src="src/ios/Headers/OoyalaIMA/OOIMAAdPlayer.h" />
-        <header-file src="src/ios/Headers/OoyalaIMA/OOIMAAdSpot.h" />
-        <header-file src="src/ios/Headers/OoyalaIMA/OOIMAManager.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOAdPlugin.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOAdPluginManagerProtocol.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOAdSpot.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOAdSpotManager.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOAdSpotPlugin.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOAnalytics.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOAuthorizableItem.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOCallbacks.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOCaption.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOChannel.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOChannelSet.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOClientId.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOClosedCaptions.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOClosedCaptionsStyle.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOContentItem.h" />
-        <header-file src="src/ios/Headers/Ooyala/OODebugMode.h" />
-        <header-file src="src/ios/Headers/Ooyala/OODefaultPlayerInfo.h" />
-        <header-file src="src/ios/Headers/Ooyala/OODynamicChannel.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOEmbeddedSecureURLGenerator.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOEmbeddedSignatureGenerator.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOEmbedTokenGenerator.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOFCCTVRating.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOFCCTVRatingConfiguration.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOLifeCycle.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOManagedAdSpot.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOModule.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOOoyalaAdSpot.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOOoyalaAPIClient.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOOoyalaError.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOOoyalaPlayer.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOOoyalaPlayerViewController.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOOptions.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOOrderedDictionary.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOPaginatedParentItem.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOPlayableItem.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOPlayer.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOPlayerDomain.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOPlayerInfo.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOPlayerProtocol.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOReturnState.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOSecureURLGenerator.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOSignatureGenerator.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOStateNotifier.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOStream.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOStreamPlayer.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOTBXML.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOUserInfo.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOVASTAd.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOVASTAdData.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOVASTAdSpot.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOVASTLinearAd.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOVASTSequenceItem.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOVASTStream.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOVASTUtils.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOVASTWrapperAd.h" />
-        <header-file src="src/ios/Headers/Ooyala/OOVideo.h" />
-	-->
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAdDisplayContainer.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAdError.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAdEvent.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAdPlaybackInfo.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAdPodInfo.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAdsLoader.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAdsManager.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAdsRenderingSettings.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAdsRequest.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAVPlayerContentPlayhead.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMACompanionAdSlot.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAContentPlayhead.h" target-dir="Headers/GoogleIMA" />
+        <header-file src="src/ios/Headers/OoyalaIMA/OOIMAAdPlayer.h" target-dir="Headers/OoyalaIMA" />
+        <header-file src="src/ios/Headers/OoyalaIMA/OOIMAAdSpot.h" target-dir="Headers/OoyalaIMA" />
+        <header-file src="src/ios/Headers/OoyalaIMA/OOIMAManager.h" target-dir="Headers/OoyalaIMA" />
+        <header-file src="src/ios/Headers/Ooyala/OOAdPlugin.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOAdPluginManagerProtocol.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOAdSpot.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOAdSpotManager.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOAdSpotPlugin.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOAnalytics.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOAuthorizableItem.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOCallbacks.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOCaption.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOChannel.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOChannelSet.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOClientId.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOClosedCaptions.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOClosedCaptionsStyle.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOContentItem.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OODebugMode.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OODefaultPlayerInfo.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OODynamicChannel.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOEmbeddedSecureURLGenerator.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOEmbeddedSignatureGenerator.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOEmbedTokenGenerator.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOFCCTVRating.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOFCCTVRatingConfiguration.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOLifeCycle.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOManagedAdSpot.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOModule.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOOoyalaAdSpot.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOOoyalaAPIClient.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOOoyalaError.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOOoyalaPlayer.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOOoyalaPlayerViewController.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOOptions.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOOrderedDictionary.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOPaginatedParentItem.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOPlayableItem.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOPlayer.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOPlayerDomain.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOPlayerInfo.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOPlayerProtocol.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOReturnState.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOSecureURLGenerator.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOSignatureGenerator.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOStateNotifier.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOStream.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOStreamPlayer.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOTBXML.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOUserInfo.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOVASTAd.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOVASTAdData.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOVASTAdSpot.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOVASTLinearAd.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOVASTSequenceItem.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOVASTStream.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOVASTUtils.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOVASTWrapperAd.h" target-dir="Headers/Ooyala" />
+        <header-file src="src/ios/Headers/Ooyala/OOVideo.h" target-dir="Headers/Ooyala" />
     </platform>
     
 </plugin>
