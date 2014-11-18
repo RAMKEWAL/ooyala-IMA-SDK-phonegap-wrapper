@@ -50,7 +50,6 @@
     <!-- ios -->
     <platform name="ios">
 	<framework src="CoreLocation.framework" />
-	<!--
         <framework src="MediaAccessibility.framework" />
         <framework src="AdSupport.framework" />
         <framework src="AudioToolbox.framework" />
@@ -61,11 +60,12 @@
         <framework src="Security.framework" />
         <framework src="SystemConfiguration.framework" />
         <framework src="AVFoundation.framework" />
+	<!--
         <framework src="libz.dylib" />
         <framework src="libc++.dylib" />
 	-->
 
-        <header-file src="src/ios/Headers/GoogleIMA/IMAAd.h" />
+        <header-file src="src/ios/Headers/GoogleIMA/IMAAd.h" target-dir="Headers/GoogleIMA" />
 	<!--
         <header-file src="src/ios/Headers/GoogleIMA/IMAAdDisplayContainer.h" />
         <header-file src="src/ios/Headers/GoogleIMA/IMAAdError.h" />
