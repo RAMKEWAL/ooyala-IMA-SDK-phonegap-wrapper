@@ -45,6 +45,8 @@
             target-dir="src/com/fubotv/cordova/ooyalaIMA"/>
 	<source-file src="src/android/Constants.java" 
             target-dir="src/com/fubotv/cordova/ooyalaIMA"/>
+	<source-file src="src/android/CustomOoyalaIMAManager.java" 
+            target-dir="src/com/fubotv/cordova/ooyalaIMA"/>
     </platform>
     
     <!-- ios -->
