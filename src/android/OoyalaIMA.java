@@ -85,12 +85,11 @@ public class OoyalaIMA extends CordovaPlugin {
     private HashMap<String, CallbackContext>  actionCallbacks;
 
     // UI
+    static private FrameLayout playerParentLayout = null;
+    static private OoyalaPlayer player = null;
     private Activity cordovaActivity = null;
-    private FrameLayout playerParentLayout = null;
     private OoyalaPlayerLayout playerLayout = null;
     private CustomOoyalaIMAManager imaManager = null;
-    private OoyalaPlayer player = null;
-
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView)
@@ -104,6 +103,23 @@ public class OoyalaIMA extends CordovaPlugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    static public boolean isPlayerVisible() {
+        if (playerParentLayout == null) return false;
+
+        return (playerParentLayout.getVisibility() == View.VISIBLE);
+    }
+
+    static public void hidePlayer() {
+        if (player != null) {
+            player.deleteObservers();
+            player.pause();
+        }
+
+        if (playerParentLayout != null) {
+            playerParentLayout.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
