@@ -157,7 +157,8 @@ const DO_PAUSE = 1;
 var _callbacks = {};
 var MessageBus = {
     handler : function(jsonObj) {
-        _callbacks[jsonObj.event].forEach(function(item, index, array) {
+        var callbacks = _callbacks[jsonObj.event];
+        callbacks.forEach(function(item) {
             item.callback(jsonObj.params);
         });
     },
