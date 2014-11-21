@@ -62,10 +62,11 @@
         <framework src="Security.framework" />
         <framework src="SystemConfiguration.framework" />
         <framework src="AVFoundation.framework" />
-	<!--
-        <framework src="libz.dylib" />
-        <framework src="libc++.dylib" />
-	-->
+
+	<source-file src="src/ios/Libraries/libGoogleIMA3.a" framework="true" />
+	<source-file src="src/ios/Libraries/libGoogleIMA3ForAdMob.a" framework="true" />
+	<source-file src="src/ios/Libraries/libOoyalaIMASDK.a" framework="true" />
+	<source-file src="src/ios/Libraries/libOoyalaSDK.a" framework="true" />
 
         <header-file src="src/ios/Headers/GoogleIMA/IMAAd.h" target-dir="Headers/GoogleIMA" />
         <header-file src="src/ios/Headers/GoogleIMA/IMAAdDisplayContainer.h" target-dir="Headers/GoogleIMA" />
