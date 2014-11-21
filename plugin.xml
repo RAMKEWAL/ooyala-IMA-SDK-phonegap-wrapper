@@ -66,9 +66,6 @@
 	<source-file src="src/ios/Libraries/libGoogleIMA3.a" framework="true" />
 	<source-file src="src/ios/Libraries/libOoyalaIMASDK.a" framework="true" />
 	<source-file src="src/ios/Libraries/libOoyalaSDK.a" framework="true" />
-	<source-file src="libz.dylib" weak="true" />
-	<source-file src="libc++.dylib" weak="true" />
-	<source-file src="libxml2.dylib" weak="true" />
 
         <header-file src="src/ios/Headers/GoogleIMA/IMAAd.h" target-dir="Headers/GoogleIMA" />
         <header-file src="src/ios/Headers/GoogleIMA/IMAAdDisplayContainer.h" target-dir="Headers/GoogleIMA" />
