@@ -82,7 +82,6 @@ public class OoyalaIMA extends CordovaPlugin {
     private CallbackContext cbc_getCuePointsInPercentage;
 
     private CallbackContext msgBusEventCallback = null;
-    private HashMap<String, CallbackContext>  actionCallbacks;
 
     // UI
     static private FrameLayout playerParentLayout = null;
@@ -90,15 +89,6 @@ public class OoyalaIMA extends CordovaPlugin {
     private Activity cordovaActivity = null;
     private OoyalaPlayerLayout playerLayout = null;
     private CustomOoyalaIMAManager imaManager = null;
-
-    @Override
-    public void initialize(CordovaInterface cordova, CordovaWebView webView)
-    {
-        super.initialize(cordova, webView);
-
-        // Create action callbacks
-        actionCallbacks = new HashMap<String, CallbackContext>();
-    }
 
     @Override
     public void onDestroy() {
@@ -125,8 +115,6 @@ public class OoyalaIMA extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
-            actionCallbacks.put(action, callbackContext);
-
             // Private mechanism methods
             if (Constants.ACTION_SET_MSGBUSEVENTHANDLER.equals(action)) {
                 msgBusEventCallback = callbackContext;
@@ -441,7 +429,7 @@ public class OoyalaIMA extends CordovaPlugin {
                 return true;
             } else if (Constants.ACTION_PLAYWITHINITIALTIME.equals(action)) {
                 if (args.length() == 1 && args.getString(0).equals("null")) {
-                    callbackContext.error("[playWithInitialTime] failed : embed code is missing");
+                    callbackContext.error("[playWithInitialTime] failed : time is missing");
                 } else {
                     final int time = args.getInt(0);
                     if (player != null) {
@@ -461,7 +449,7 @@ public class OoyalaIMA extends CordovaPlugin {
                 return true;
             } else if (Constants.ACTION_SEEK.equals(action)) {
                 if (args.length() == 1 && args.getString(0).equals("null")) {
-                    callbackContext.error("[seek] failed : embed code is missing");
+                    callbackContext.error("[seek] failed : time is missing");
                 } else {
                     final int time = args.getInt(0);
                     if (player != null) {
