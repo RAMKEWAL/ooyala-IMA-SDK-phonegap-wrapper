@@ -744,7 +744,16 @@ public class OoyalaIMA extends CordovaPlugin {
                         @Override
                         public void run() {
                             OoyalaPlayer.SeekStyle seekStyle = player.getSeekStyle();
-                            cbc_getSeekStyle.success(seekStyle.ordinal());
+                            String retVal = null;
+                            if (seekStyle == OoyalaPlayer.SeekStyle.NONE) {
+                                retVal = "NONE";
+                            } else if (seekStyle == OoyalaPlayer.SeekStyle.BASIC) {
+                                retVal = "BASIC";
+                            } else if (seekStyle == OoyalaPlayer.SeekStyle.ENHANCED) {
+                                retVal = "ENHANCED";
+                            }
+
+                            cbc_getSeekStyle.success(retVal);
                         }
                     });
                 } else {
@@ -774,7 +783,17 @@ public class OoyalaIMA extends CordovaPlugin {
                         @Override
                         public void run() {
                             OoyalaPlayer.ActionAtEnd actionAtEnd = player.getActionAtEnd();
-                            cbc_getActionAtEnd.success(actionAtEnd.ordinal());
+                            String retVal = null;
+                            if (actionAtEnd == OoyalaPlayer.ActionAtEnd.CONTINUE) {
+                                retVal = "CONTINUE";
+                            } else if (actionAtEnd == OoyalaPlayer.ActionAtEnd.PAUSE) {
+                                retVal = "PAUSE";
+                            } else if (actionAtEnd == OoyalaPlayer.ActionAtEnd.STOP) {
+                                retVal = "STOP";
+                            } else if (actionAtEnd == OoyalaPlayer.ActionAtEnd.RESET) {
+                                retVal = "RESET";
+                            }
+                            cbc_getActionAtEnd.success(retVal);
                         }
                     });
                 } else {
@@ -952,7 +971,7 @@ public class OoyalaIMA extends CordovaPlugin {
                 return true;
             } else if (Constants.ACTION_SEEKTOPERCENT.equals(action)) {
                 if (args.length() == 1 && args.getString(0).equals("null")) {
-                    callbackContext.error("[seekToPercent] failed : embed code is missing");
+                    callbackContext.error("[seekToPercent] failed : percent is missing");
                 } else {
                     final int percent = args.getInt(0);
                     if (player != null) {
@@ -1002,7 +1021,7 @@ public class OoyalaIMA extends CordovaPlugin {
                 return true;
             } else if (Constants.ACTION_DISPLAYCLOSEDCAPTIONTEXT.equals(action)) {
                 if (args.length() == 1 && args.getString(0).equals("null")) {
-                    callbackContext.error("[displayClosedCaptionText] failed : embed code is missing");
+                    callbackContext.error("[displayClosedCaptionText] failed : param is missing");
                 } else {
                     final String sCaptionText = args.getString(0);
                     if (player != null) {
@@ -1059,7 +1078,7 @@ public class OoyalaIMA extends CordovaPlugin {
             // IMA manager functions
             else if (Constants.ACTION_SET_ADURLOVERRIDE.equals(action)) {
                 if (args.length() == 1 && args.getString(0).equals("null")) {
-                    callbackContext.error("[setAdUrlOverride] failed : embed code is missing");
+                    callbackContext.error("[setAdUrlOverride] failed : param is missing");
                 } else {
                     final String sUrl = args.getString(0);
                     if (imaManager != null) {
@@ -1073,7 +1092,7 @@ public class OoyalaIMA extends CordovaPlugin {
                 return true;
             } else if (Constants.ACTION_SET_ADTAGPARAMS.equals(action)) {
                 if (args.length() == 1 && args.getString(0).equals("null")) {
-                    callbackContext.error("[setAdTagParameters] failed : embed code is missing");
+                    callbackContext.error("[setAdTagParameters] failed : params are missing");
                 } else {
                     final JSONObject jsonObject = args.getJSONObject(0);
                     if (imaManager != null) {
