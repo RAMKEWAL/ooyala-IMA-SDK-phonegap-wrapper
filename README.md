@@ -35,4 +35,15 @@ android cordova plugin for Ooyala IMA SDK
   );
 ```
 
+- For iOS only
+  add additional libraries to project. 
+  on Xcode, select project icon, click 'Build Phases'.
+  open 'Link Binary With Libraries' and add following libraries.
+
+  ```
+  libz.dylib
+  libc++.dylib
+  libxml2.dylib
+  ```
+
 - For more information, please refer to 'Reference.pdf' in doc folder. You can find more functions and events which you can listen to there.
