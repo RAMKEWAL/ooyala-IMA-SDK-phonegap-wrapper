@@ -51,6 +51,14 @@
     
     <!-- ios -->
     <platform name="ios">
+
+	<config-file target="config.xml" parent="/*">
+		<feature name="OoyalaIMA">
+			<param name="ios-package" value="OoyalaPlayerPlugin" />
+			<param name="unload" value="true" />
+		</feature>
+	</config-file>
+
 	<framework src="CoreLocation.framework" />
         <framework src="MediaAccessibility.framework" />
         <framework src="AdSupport.framework" />
@@ -63,9 +71,9 @@
         <framework src="SystemConfiguration.framework" />
         <framework src="AVFoundation.framework" />
 
-	<source-file src="src/ios/Libraries/libGoogleIMA3.a" framework="true" />
-	<source-file src="src/ios/Libraries/libOoyalaIMASDK.a" framework="true" />
-	<source-file src="src/ios/Libraries/libOoyalaSDK.a" framework="true" />
+	<source-file src="src/ios/Libraries/libGoogleIMA3.a" target-dir="Libraries" framework="true" />
+	<source-file src="src/ios/Libraries/libOoyalaIMASDK.a" target-dir="Libraries" framework="true" />
+	<source-file src="src/ios/Libraries/libOoyalaSDK.a" target-dir="Libraries" framework="true" />
 
         <header-file src="src/ios/Headers/GoogleIMA/IMAAd.h" target-dir="Headers/GoogleIMA" />
         <header-file src="src/ios/Headers/GoogleIMA/IMAAdDisplayContainer.h" target-dir="Headers/GoogleIMA" />
@@ -139,6 +147,9 @@
         <header-file src="src/ios/Headers/Ooyala/OOVASTUtils.h" target-dir="Headers/Ooyala" />
         <header-file src="src/ios/Headers/Ooyala/OOVASTWrapperAd.h" target-dir="Headers/Ooyala" />
         <header-file src="src/ios/Headers/Ooyala/OOVideo.h" target-dir="Headers/Ooyala" />
+
+	<header-file src="src/ios/OoyalaPlayerPlugin.h" />
+	<source-file src="src/ios/OoyalaPlayerPlugin.m" />
     </platform>
     
 </plugin>
