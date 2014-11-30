@@ -18,6 +18,22 @@
     NSDictionary *dicParams = [command argumentAtIndex:0];
     NSString *pcode = (NSString *)[dicParams objectForKey:@"pcode"];
     NSString *domain = (NSString *)[dicParams objectForKey:@"domain"];
+    int left, top, width, height;
+    BOOL bHasFrameRect = NO;
+    for (NSString *key in dicParams) {
+        if ([key isEqualToString:@"left"]) {
+            bHasFrameRect = YES;
+            break;
+        }
+    }
+    
+    if (bHasFrameRect) {
+        left = [[dicParams objectForKey:@"left"] intValue];
+        top = [[dicParams objectForKey:@"top"] intValue];
+        width = [[dicParams objectForKey:@"width"] intValue];
+        height = [[dicParams objectForKey:@"height"] intValue];
+    }
+    
     NSLog(@"PCODE : %@", pcode);
     NSLog(@"DOMAIN : %@", domain);
     
@@ -28,7 +44,11 @@
     // Add view for video play
     UIView *mainView = [[self viewController] view];
     CGSize scrSz = [UIScreen mainScreen].bounds.size;
-    vPlayer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, scrSz.width, scrSz.height / 3.0)];
+    if (bHasFrameRect) {
+        vPlayer = [[UIView alloc] initWithFrame:CGRectMake(left, top, width, height)];
+    } else {
+        vPlayer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, scrSz.width, scrSz.height / 3.0)];
+    }
     vPlayer.backgroundColor = [UIColor clearColor];
     vPlayer.hidden = YES;
     [mainView addSubview:vPlayer];
