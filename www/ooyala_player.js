@@ -184,6 +184,17 @@ OoyalaIMA.prototype.createPlayer = function (pcode, domain) {
     return ooyala_player;
 }
 
+OoyalaIMA.prototype.createPlayer = function (pcode, domain, x, y, width, height) {
+    ooyala_player.mb = MessageBus;
+
+    cordova.exec(MessageBus.handler, null, PLAYER_PLUGIN,
+            ACTION_SET_MSGBUSEVENTHANDLER, []);
+    cordova.exec(null, null, PLAYER_PLUGIN, ACTION_CREATE_PLAYER,
+        [{"pcode":pcode, "domain":domain, "left":x, "top":y, "width":width, "height":height}]);
+
+    return ooyala_player;
+}
+
 var ooyala_player = {
     mb : null,
     imaManager : null,

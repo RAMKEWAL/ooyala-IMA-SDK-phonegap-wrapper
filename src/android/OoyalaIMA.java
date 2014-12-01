@@ -1,10 +1,12 @@
 package com.fubotv.cordova.ooyalaIMA;
 
 import android.app.Activity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.ooyala.android.*;
 import com.ooyala.android.ui.OptimizedOoyalaPlayerLayoutController;
@@ -128,6 +130,19 @@ public class OoyalaIMA extends CordovaPlugin {
                 JSONObject jsonObject = args.getJSONObject(0);
                 final String sPcode = jsonObject.getString("pcode");
                 final String sDomain = jsonObject.getString("domain");
+                final boolean bHasFrameRt = jsonObject.has("left");
+                final int left, top, width, height;
+                if (bHasFrameRt) {
+                    left = jsonObject.getInt("left");
+                    top = jsonObject.getInt("top");
+                    width = jsonObject.getInt("width");
+                    height = jsonObject.getInt("height");
+                } else {
+                    left = 0;
+                    top = 0;
+                    width = 0;
+                    height = 0;
+                }
                 cordovaActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -144,9 +159,15 @@ public class OoyalaIMA extends CordovaPlugin {
                         ViewGroup.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                         playerParentLayout.setLayoutParams(layoutParams);
 
-                        layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 450);
+                        FrameLayout.LayoutParams flParams;
+                        if (bHasFrameRt) {
+                            flParams = new FrameLayout.LayoutParams(width, height);
+                            flParams.setMargins(left, top, 0, 0);
+                        } else {
+                            flParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 450, Gravity.CENTER);
+                        }
                         playerLayout = new OoyalaPlayerLayout(cordovaActivity);
-                        playerLayout.setLayoutParams(layoutParams);
+                        playerLayout.setLayoutParams(flParams);
                         playerParentLayout.addView(playerLayout);
 
                         playerParentLayout.setVisibility(View.INVISIBLE);
