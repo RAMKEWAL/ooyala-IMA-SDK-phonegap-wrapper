@@ -439,6 +439,7 @@ public class OoyalaIMA extends CordovaPlugin {
                         @Override
                         public void run() {
                             playerParentLayout.setVisibility(View.VISIBLE);
+                            player.setFullscreen(true);
                             player.play();
                             cbc_play.success("[play] success");
                         }
@@ -458,6 +459,7 @@ public class OoyalaIMA extends CordovaPlugin {
                         cordovaActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                player.setFullscreen(true);
                                 player.play(time);
                                 cbc_playWithInitialTime.success("[playWithInitialTime] success");
                             }
