@@ -27,9 +27,6 @@ android cordova plugin for Ooyala IMA SDK
         // Set embed code
         player.setEmbedCode('h1aG5kcTrQz1rq8L2Pw6qF0Zn9zhmnAk', null, null);
         
-        // Set full screen
-        player.setFullscreen(true, null, null);
-        
         // Play video
         player.play(null, null);
       } else {

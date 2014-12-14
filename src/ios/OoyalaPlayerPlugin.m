@@ -1042,26 +1042,4 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void) setFullscreen:(CDVInvokedUrlCommand *) command {
-    NSString *errStr = nil;
-    NSString *param = (NSString *)[command argumentAtIndex:0];
-    
-    if (param == nil) {
-        errStr = @"[setFullscreen] failed : param is missing";
-    } else if (ooyalaPlayerVC == nil) {
-        errStr = @"[setFullscreen] failed : player is not created";
-    }
-    
-    CDVPluginResult *pluginResult;
-    if (errStr) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errStr];
-    } else {
-        BOOL bFlag = [[command argumentAtIndex:0] boolValue];
-        [ooyalaPlayerVC setFullscreen:bFlag];
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"[setFullscreen] success"];
-    }
-    
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-}
-
 @end

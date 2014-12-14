@@ -957,26 +957,6 @@ public class OoyalaIMA extends CordovaPlugin {
                 }
 
                 return true;
-            } else if (Constants.ACTION_SET_FULLSCREEN.equals(action)) {
-                if (args.length() == 1 && args.getString(0).equals("null")) {
-                    callbackContext.error("[setFullscreen] failed : param is missing");
-                } else {
-                    final Boolean bFlag = args.getBoolean(0);
-                    if (player != null) {
-                        cbc_setFullscreen = callbackContext;
-                        cordovaActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                player.setFullscreen(bFlag);
-                                cbc_setFullscreen.success("[setFullscreen] success");
-                            }
-                        });
-                    } else {
-                        callbackContext.error("[setFullscreen] failed : player is not created");
-                    }
-                }
-
-                return true;
             } else if (Constants.ACTION_ISADPLAYING.equals(action)) {
                 if (player != null) {
                     cbc_isAdPlaying = callbackContext;

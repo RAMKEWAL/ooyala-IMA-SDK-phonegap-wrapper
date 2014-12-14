@@ -23,7 +23,6 @@ const ACTION_PLAYWITHINITIALTIME = "playWithInitialTime";
 const ACTION_SUSPEND = "suspend";
 const ACTION_RESUME = "resume";
 const ACTION_ISFULLSCREEN = "isFullscreen";
-const ACTION_SET_FULLSCREEN = "setFullscreen";
 const ACTION_GET_TOPBAROFFSET = "getTopBarOffset";
 const ACTION_GET_PLAYHEADTIME = "getPlayheadTime";
 const ACTION_SET_PLAYHEADTIME = "setPlayheadTime";
@@ -180,10 +179,6 @@ var ooyala_player = {
 
     isFullscreen: function(success, failure) {
         cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_ISFULLSCREEN, []);
-    },
-
-    setFullscreen: function(bFullScreen, success, failure) {
-        cordova.exec(success, failure, PLAYER_PLUGIN, ACTION_SET_FULLSCREEN, [bFullScreen]);
     },
 
     getTopBarOffset: function(success, failure) {
