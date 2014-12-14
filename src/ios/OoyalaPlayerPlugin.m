@@ -51,14 +51,14 @@
     }
     vPlayer.backgroundColor = [UIColor clearColor];
     vPlayer.hidden = YES;
-    [mainView addSubview:vPlayer];
     
     // Create ooyala player view controller and add player view
-    ooyalaPlayerVC = [[OOOoyalaPlayerViewController alloc] initWithPcode:pcode domain:[[OOPlayerDomain alloc] initWithString:domain]];
+    ooyalaPlayerVC = [[OOOoyalaPlayerViewController alloc] initWithPcode:pcode domain:[[OOPlayerDomain alloc] initWithString:domain] controlType:OOOoyalaPlayerControlTypeFullScreen];
     [ooyalaPlayerVC.view setFrame:vPlayer.bounds];
     [[self viewController] addChildViewController:ooyalaPlayerVC];
     
     [vPlayer addSubview:ooyalaPlayerVC.view];
+    [mainView addSubview:vPlayer];
     
     adsManager = [[OOIMAManager alloc] initWithOoyalaPlayerViewController:ooyalaPlayerVC];
     
@@ -68,6 +68,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:msgParam];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:msgBusEventCallbackID];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPlayerExitFullscreen) name:OOOoyalaPlayerViewControllerFullscreenExit object:ooyalaPlayerVC];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPlayerTimeChanged) name:OOOoyalaPlayerTimeChangedNotification object:ooyalaPlayerVC.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPlayerStateChanged) name:OOOoyalaPlayerStateChangedNotification object:ooyalaPlayerVC.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPlayerContentTreeReady) name:OOOoyalaPlayerContentTreeReadyNotification object:ooyalaPlayerVC.player];
@@ -88,6 +89,13 @@
 }
 
 // Notification handler functions
+- (void)onPlayerExitFullscreen {
+    [ooyalaPlayerVC removeFromParentViewController];
+    [ooyalaPlayerVC.player pause];
+    [ooyalaPlayerVC.view removeFromSuperview];
+    vPlayer.hidden = YES;
+}
+
 - (void)onPlayerTimeChanged {
     
 }
