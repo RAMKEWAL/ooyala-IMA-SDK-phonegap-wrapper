@@ -1,6 +1,6 @@
 ooyala-IMA-SDK-phonegap-wrapper
 ===============================
-android cordova plugin for Ooyala IMA SDK
+Cordova plugin for OoyalaIMA SDK
 
 - Installation
 ```
