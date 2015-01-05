@@ -150,6 +150,8 @@
 
 	<header-file src="src/ios/OoyalaPlayerPlugin.h" />
 	<source-file src="src/ios/OoyalaPlayerPlugin.m" />
+    <header-file src="src/ios/OoyalaPlayer+Orientation.h" />
+    <source-file src="src/ios/OoyalaPlayer+Orientation.m" />
     </platform>
     
 </plugin>

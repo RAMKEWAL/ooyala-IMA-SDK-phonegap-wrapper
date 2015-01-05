@@ -11,6 +11,7 @@
 #import "OOOoyalaPlayer.h"
 #import "OOIMAManager.h"
 #import "OOPlayerDomain.h"
+#import "OoyalaPlayer+Orientation.h"
 
 #define IP_EVENT    @"event"
 #define IP_PARAMS   @"params"
