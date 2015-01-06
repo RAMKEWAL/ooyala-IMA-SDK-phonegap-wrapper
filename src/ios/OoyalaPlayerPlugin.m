@@ -18,24 +18,15 @@
     NSDictionary *dicParams = [command argumentAtIndex:0];
     NSString *pcode = (NSString *)[dicParams objectForKey:@"pcode"];
     NSString *domain = (NSString *)[dicParams objectForKey:@"domain"];
-    int left, top, width, height;
-    BOOL bHasFrameRect = NO;
-    for (NSString *key in dicParams) {
-        if ([key isEqualToString:@"left"]) {
-            bHasFrameRect = YES;
-            break;
-        }
-    }
-    
-    if (bHasFrameRect) {
-        left = [[dicParams objectForKey:@"left"] intValue];
-        top = [[dicParams objectForKey:@"top"] intValue];
-        width = [[dicParams objectForKey:@"width"] intValue];
-        height = [[dicParams objectForKey:@"height"] intValue];
-    }
-    
+    [self createPlayerWithPcode:pcode domain:domain];
+}
+
+- (void) createPlayerWithPcode:(NSString *)pcode domain:(NSString *)domain
+{
     NSLog(@"PCODE : %@", pcode);
     NSLog(@"DOMAIN : %@", domain);
+    _pcode = pcode;
+    _domain = domain;
     
     if (ooyalaPlayerVC != nil) {
         [ooyalaPlayerVC.player pause];
@@ -44,11 +35,8 @@
     // Add view for video play
     UIView *mainView = [[self viewController] view];
     CGSize scrSz = [UIScreen mainScreen].bounds.size;
-    if (bHasFrameRect) {
-        vPlayer = [[UIView alloc] initWithFrame:CGRectMake(left, top, width, height)];
-    } else {
-        vPlayer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, scrSz.width, scrSz.height / 3.0)];
-    }
+    vPlayer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, scrSz.width, scrSz.height / 3.0)];
+    
     vPlayer.backgroundColor = [UIColor clearColor];
     vPlayer.hidden = YES;
     
@@ -90,10 +78,13 @@
 
 // Notification handler functions
 - (void)onPlayerExitFullscreen {
-    [ooyalaPlayerVC removeFromParentViewController];
-    [ooyalaPlayerVC.player pause];
-    [ooyalaPlayerVC.view removeFromSuperview];
-    vPlayer.hidden = YES;
+    if (!vPlayer.hidden) {
+        [ooyalaPlayerVC removeFromParentViewController];
+        [ooyalaPlayerVC.player pause];
+        [ooyalaPlayerVC.view removeFromSuperview];
+        [vPlayer removeFromSuperview];
+        vPlayer = nil;
+    }
 }
 
 - (void)onPlayerTimeChanged {
@@ -229,6 +220,10 @@
     if (errStr) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errStr];
     } else {
+        if (vPlayer == nil) {
+            [self createPlayerWithPcode:_pcode domain:_domain];
+        }
+        
         BOOL bRet = [ooyalaPlayerVC.player setEmbedCode:param];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:(bRet ? @"true" : @"false")];
     }
@@ -250,6 +245,10 @@
     if (errStr) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errStr];
     } else {
+        if (vPlayer == nil) {
+            [self createPlayerWithPcode:_pcode domain:_domain];
+        }
+        
         BOOL bRet = [ooyalaPlayerVC.player setEmbedCodes:command.arguments];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:(bRet ? @"true" : @"false")];
     }
@@ -271,6 +270,10 @@
     if (errStr) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errStr];
     } else {
+        if (vPlayer == nil) {
+            [self createPlayerWithPcode:_pcode domain:_domain];
+        }
+        
         NSDictionary *dicParam = [command argumentAtIndex:0];
         NSString *embedCode = [dicParam objectForKey:@"EmbedCode"];
         NSString *adsetCode = [dicParam objectForKey:@"AdSetCode"];
@@ -295,6 +298,10 @@
     if (errStr) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errStr];
     } else {
+        if (vPlayer == nil) {
+            [self createPlayerWithPcode:_pcode domain:_domain];
+        }
+        
         NSDictionary *dicParam = [command argumentAtIndex:0];
         NSArray *embedCodes = [dicParam objectForKey:@"EmbedCodes"];
         NSString *adsetCode = [dicParam objectForKey:@"AdSetCode"];

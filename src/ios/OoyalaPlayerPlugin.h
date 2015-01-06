@@ -34,6 +34,8 @@
 
 @interface OoyalaPlayerPlugin : CDVPlugin
 {
+    NSString *_pcode;
+    NSString *_domain;
     NSString *msgBusEventCallbackID;
     OOOoyalaPlayerViewController *ooyalaPlayerVC;
     OOIMAManager *adsManager;
@@ -82,7 +84,6 @@
 - (void) setActionAtEnd:(CDVInvokedUrlCommand *) command;
 - (void) getAuthToken:(CDVInvokedUrlCommand *) command;
 - (void) isFullscreen:(CDVInvokedUrlCommand *) command;
-- (void) setFullscreen:(CDVInvokedUrlCommand *) command;
 
 // iOS only
 - (void) adsSeekable:(CDVInvokedUrlCommand *) command;
