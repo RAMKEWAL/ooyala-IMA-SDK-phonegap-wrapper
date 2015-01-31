@@ -531,7 +531,7 @@
     NSString *errStr = nil;
     NSString *param = (NSString *)[command argumentAtIndex:0];
     
-    if (param == nil || [param isEqualToString:@"null"]) {
+    if (param == nil || ([param isKindOfClass:[NSString class]] && [param isEqualToString:@"null"])) {
         errStr = @"[seek] failed : time is missing";
     } else if (ooyalaPlayerVC == nil) {
         errStr = @"[seek] failed : player is not created";
