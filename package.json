@@ -1,0 +1,19 @@
+{
+  "name": "ooyala-ima-sdk-phonegap-wrapper",
+  "version": "1.0.0",
+   "cordova": {
+    "id": "ooyala-ima-sdk-phonegap-wrapper",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "description": "cordova plugin for Ooyala IMA",
+  "repository": "git+https://github.com/RAMKEWAL/ooyala-IMA-SDK-phonegap-wrapper.git",
+  "keywords": [
+    "ooyala-IMA-SDK-phonegap-wrapper"
+  ],
+  "author": "Kewal Ram",
+  "license": "Apache 2.0",
+  "issue": "https://github.com/RAMKEWAL/ooyala-IMA-SDK-phonegap-wrapper/issues"
+}
